@@ -97,3 +97,12 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* 🔥 Fade In Animation (used for dropdowns, modals, etc.) */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out forwards;
+}
