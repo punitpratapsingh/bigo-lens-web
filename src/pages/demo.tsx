@@ -415,11 +415,11 @@ export default function RequestDemo() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <Card className="bg-gradient-to-br from-green-500/10 to-blue-500/10 border border-pink-500/30 rounded-3xl p-6 shadow-2xl shadow-blue-500/20 backdrop-blur-md">
-                  <h4 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                    <Rocket className="w-5 h-5 text-cyan-400 drop-shadow-sm" />
+                  <h4 className="text-xl font-bold text-black mb-4 flex items-center gap-2">
+                    <Rocket className="w-5 h-5 text-black-400 drop-shadow-sm" />
                     Demo Highlights
                   </h4>
-                  <ul className="space-y-3 text-blue-100">
+                  <ul className="space-y-3 text-black-100">
                     {[
                       "Live platform walkthrough",
                       "Real-time visual search demo", 
@@ -434,7 +434,7 @@ export default function RequestDemo() {
                         transition={{ delay: index * 0.1 }}
                         className="flex items-center gap-3 group"
                       >
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full group-hover:scale-150 transition-transform duration-300 shadow-sm shadow-cyan-400/50"></div>
+                        <div className="w-2 h-2 bg-blue-400 rounded-full group-hover:scale-150 transition-transform duration-300 shadow-sm shadow-cyan-400/50"></div>
                         {item}
                       </motion.li>
                     ))}

@@ -38,7 +38,7 @@ export default function Navbar() {
           {/* 🌟 Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <img
-              src="@/assets/logo33.png"
+              src="/src/assets/logo33.png"
               alt="BigO AI Logo"
               className="w-36 h-36 object-contain drop-shadow-[0_0_12px_hsl(239,84%,70%)] hover:scale-110 transition-transform duration-300"
             />
@@ -111,7 +111,7 @@ export default function Navbar() {
 
             {/* Static Links */}
             <Link to="/whyBigO" className="hover:text-cyan-300 transition">
-              Why BigO Lens
+              Why BigO Lens?
             </Link>
             <Link to="/contact" className="hover:text-cyan-300 transition">
               Contact Us
@@ -196,7 +196,7 @@ export default function Navbar() {
 
             {/* Other Links */}
             <Link to="/whyBigO" className="block px-4 hover:text-cyan-300">
-              Why BigO Lens
+              Why BigO Lens?
             </Link>
             <Link to="/contact" className="block px-4 hover:text-cyan-300">
               Contact Us

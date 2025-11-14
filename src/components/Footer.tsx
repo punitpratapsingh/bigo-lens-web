@@ -1,221 +1,134 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { Facebook, Twitter, Linkedin, Instagram, Youtube } from "lucide-react";
 
 export default function Footer() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const location = useLocation();
-
-  // 🌀 Close mobile menu on route change
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location]);
-
-  // 🌫️ Add scroll-based effect
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const toggleDropdown = (menu: string) => {
-    setOpenDropdown(openDropdown === menu ? null : menu);
-  };
-
   return (
-    <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-[hsla(239,84%,10%,0.9)] backdrop-blur-2xl border-b border-[hsla(239,84%,70%,0.2)] shadow-[0_0_25px_hsla(239,84%,60%,0.3)]"
-          : "bg-transparent border-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* 🌟 Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+    <footer className="bg-[hsla(239,84%,10%,0.95)] backdrop-blur-xl border-t border-[hsla(239,84%,70%,0.2)] text-blue-100 mt-20 shadow-[0_-5px_25px_hsla(239,84%,50%,0.2)]">
+      <div className="container mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+        {/* 🧭 Company Info */}
+        <div>
+          <Link to="/" className="flex items-center mb-4">
             <img
-              src="/assets/logo3.png"
-              alt="BigO AI Logo"
-              className="w-36 h-36 object-contain drop-shadow-[0_0_12px_hsl(239,84%,70%)] hover:scale-110 transition-transform duration-300"
+              src="/src/assets/logo33.png"
+              alt="BigO Lens Logo"
+              className="w-20 h-20 drop-shadow-[0_0_12px_hsl(239,84%,70%)]"
             />
           </Link>
-
-          {/* 🖥️ Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-blue-100">
-            {/* Solutions Dropdown */}
-            <div
-              className="relative group"
-              onMouseEnter={() => setOpenDropdown("solutions")}
-              onMouseLeave={() => setOpenDropdown(null)}
-            >
-              <button className="flex items-center gap-1 hover:text-cyan-300 transition">
-                Solutions <ChevronDown size={16} />
-              </button>
-
-              {openDropdown === "solutions" && (
-                <div className="absolute left-0 mt-3 bg-[hsla(239,84%,10%,0.95)] backdrop-blur-md rounded-xl shadow-[0_0_20px_hsla(239,84%,60%,0.2)] border border-[hsla(239,84%,70%,0.25)] w-64 animate-fadeIn">
-                  {[
-                    { name: "Product Discovery", href: "/solutions/product-discovery" },
-                    { name: "Description Generation", href: "/solutions/description-generation" },
-                    { name: "Automatic Tagging", href: "/solutions/auto-tagging" },
-                    { name: "Product Recommendation & Analytics", href: "/solutions/recommendation" },
-                    { name: "Hyper-Personalization", href: "/solutions/personalization" },
-                    { name: "Image to Video Conversion", href: "/solutions/imgtovideo" },
-                  ].map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className="block px-4 py-2 text-sm hover:bg-[hsla(239,84%,60%,0.1)] hover:text-cyan-300 transition"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Resources Dropdown */}
-            <div
-              className="relative group"
-              onMouseEnter={() => setOpenDropdown("resources")}
-              onMouseLeave={() => setOpenDropdown(null)}
-            >
-              <button className="flex items-center gap-1 hover:text-cyan-300 transition">
-                Resources <ChevronDown size={16} />
-              </button>
-
-              {openDropdown === "resources" && (
-                <div className="absolute left-0 mt-3 bg-[hsla(239,84%,10%,0.95)] backdrop-blur-md rounded-xl shadow-[0_0_20px_hsla(239,84%,60%,0.2)] border border-[hsla(239,84%,70%,0.25)] w-56 animate-fadeIn">
-                  {[
-                    { name: "Blogs", href: "/resources/blogs" },
-                    { name: "Newsletters", href: "/resources/newsletters" },
-                    { name: "Case Studies", href: "/resources/case-studies" },
-                    { name: "ROI Calculator", href: "/resources/roi-calculator" },
-                    { name: "Publications", href: "/resources/publications" },
-                  ].map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className="block px-4 py-2 text-sm hover:bg-[hsla(239,84%,60%,0.1)] hover:text-cyan-300 transition"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Static Links */}
-            <Link to="/whyBigO" className="hover:text-cyan-300 transition">
-              Why BigO Lens
-            </Link>
-            <Link to="/contact" className="hover:text-cyan-300 transition">
-              Contact Us
-            </Link>
-            <Link to="/login" className="hover:text-cyan-300 transition">
-              Login
-            </Link>
-
-            {/* CTA Button */}
-            <Link to="/demo">
-              <Button
-                variant="default"
-                size="sm"
-                className="bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold rounded-full px-5 py-2 hover:scale-105 hover:shadow-[0_0_20px_hsla(188,85%,60%,0.5)] transition-all duration-300"
-              >
-                Request Demo
-              </Button>
-            </Link>
-          </div>
-
-          {/* 📱 Mobile Menu Toggle */}
-          <button
-            className="md:hidden text-blue-100"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <p className="text-sm text-blue-200 leading-relaxed">
+            Empowering businesses with cutting-edge AI solutions — Visual Search,
+            Auto Tagging, Product Discovery, and Hyper-Personalization for the next
+            generation of eCommerce growth.
+          </p>
         </div>
 
-        {/* 📱 Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden py-4 space-y-4 text-blue-100 animate-fadeIn backdrop-blur-lg bg-[hsla(239,84%,10%,0.95)] border-t border-[hsla(239,84%,70%,0.15)] rounded-b-2xl">
-            {/* Solutions */}
-            <details>
-              <summary className="cursor-pointer flex items-center justify-between px-4">
-                Solutions <ChevronDown size={16} />
-              </summary>
-              <div className="pl-6 mt-2 space-y-2">
-                {[
-                  "Product Discovery",
-                  "Description Generation",
-                  "Automatic Tagging",
-                  "Product Recommendation & Analytics",
-                  "Hyper-Personalization",
-                  "Image to Video Conversion",
-                ].map((name) => (
-                  <Link
-                    key={name}
-                    to={`/solutions/${name.toLowerCase().replace(/\s+/g, "-")}`}
-                    className="block text-sm hover:text-cyan-300 transition"
-                  >
-                    {name}
-                  </Link>
-                ))}
-              </div>
-            </details>
+        {/* 🔍 Solutions */}
+        <div>
+          <h3 className="text-lg font-semibold text-cyan-300 mb-3">Solutions</h3>
+          <ul className="space-y-2 text-sm">
+            <li><Link to="/solutions/product-discovery" className="hover:text-cyan-300 transition">Product Discovery</Link></li>
+            <li><Link to="/solutions/description-generation" className="hover:text-cyan-300 transition">Description Generation</Link></li>
+            <li><Link to="/solutions/auto-tagging" className="hover:text-cyan-300 transition">Auto Tagging</Link></li>
+            <li><Link to="/solutions/personalization" className="hover:text-cyan-300 transition">Hyper-Personalization</Link></li>
+            <li><Link to="/solutions/recommendation" className="hover:text-cyan-300 transition">Product Recommendation</Link></li>
+            <li><Link to="/solutions/imgtovideo" className="hover:text-cyan-300 transition">Image-to-Video Generation</Link></li>
+          </ul>
+        </div>
 
-            {/* Resources */}
-            <details>
-              <summary className="cursor-pointer flex items-center justify-between px-4">
-                Resources <ChevronDown size={16} />
-              </summary>
-              <div className="pl-6 mt-2 space-y-2">
-                {[
-                  "Blogs",
-                  "Newsletters",
-                  "Case Studies",
-                  "ROI Calculator",
-                  "Publications",
-                ].map((name) => (
-                  <Link
-                    key={name}
-                    to={`/resources/${name.toLowerCase().replace(/\s+/g, "-")}`}
-                    className="block text-sm hover:text-cyan-300 transition"
-                  >
-                    {name}
-                  </Link>
-                ))}
-              </div>
-            </details>
+        {/* 📚 Resources */}
+        <div>
+          <h3 className="text-lg font-semibold text-cyan-300 mb-3">Resources</h3>
+          <ul className="space-y-2 text-sm">
+            <li><Link to="/resources/blogs" className="hover:text-cyan-300 transition">Blogs</Link></li>
+            <li><Link to="/resources/newsletters" className="hover:text-cyan-300 transition">Newsletters</Link></li>
+            <li><Link to="/resources/publications" className="hover:text-cyan-300 transition">Publications</Link></li>
+            <li><Link to="/resources/roi-calculator" className="hover:text-cyan-300 transition">ROI Calculator</Link></li>
+            <li><Link to="/resources/case-studies" className="hover:text-cyan-300 transition">Case Studies</Link></li>
+          </ul>
+        </div>
 
-            {/* Other Links */}
-            <Link to="/whyBigO" className="block px-4 hover:text-cyan-300">
-              Why BigO Lens
-            </Link>
-            <Link to="/contact" className="block px-4 hover:text-cyan-300">
-              Contact Us
-            </Link>
-            <Link to="/login" className="block px-4 hover:text-cyan-300">
-              Login
-            </Link>
+        {/* 📞 Contact */}
+        <div>
+          <h3 className="text-lg font-semibold text-cyan-300 mb-3">Get in Touch</h3>
+          <p className="text-sm text-blue-200 mb-3">
+            Have questions or want to explore AI-powered solutions for your brand?
+          </p>
+          <Link
+            to="/contact"
+            className="inline-block bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-4 py-2 rounded-full text-sm font-semibold hover:scale-105 transition-all duration-300"
+          >
+            Contact Us
+          </Link>
 
-            {/* CTA */}
-            <div className="px-4">
-              <Link to="/demo">
-                <Button className="w-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold rounded-full py-2 hover:shadow-[0_0_20px_hsla(188,85%,60%,0.5)] transition-all">
-                  Request Demo
-                </Button>
-              </Link>
-            </div>
-          </div>
-        )}
+          {/* Social Icons - Enhanced */}
+<div className="flex space-x-2 mt-5">
+  {[
+    { 
+      Icon: Facebook, 
+      href: "https://facebook.com/bigolens", 
+      label: "Facebook",
+      bgColor: "hover:bg-[#1877F2]/20",
+      borderColor: "hover:border-[#1877F2]/40",
+      textColor: "hover:text-[#1877F2]"
+    },
+    { 
+      Icon: Twitter, 
+      href: "https://twitter.com/bigolens", 
+      label: "Twitter",
+      bgColor: "hover:bg-[#1DA1F2]/20",
+      borderColor: "hover:border-[#1DA1F2]/40",
+      textColor: "hover:text-[#1DA1F2]"
+    },
+    { 
+      Icon: Linkedin, 
+      href: "https://linkedin.com/company/bigolens", 
+      label: "LinkedIn",
+      bgColor: "hover:bg-[#0A66C2]/20",
+      borderColor: "hover:border-[#0A66C2]/40",
+      textColor: "hover:text-[#0A66C2]"
+    },
+    { 
+      Icon: Instagram, 
+      href: "https://instagram.com/bigolens", 
+      label: "Instagram",
+      bgColor: "hover:bg-gradient-to-r from-[#833AB4]/20 via-[#C13584]/20 to-[#E1306C]/20",
+      borderColor: "hover:border-[#E1306C]/40",
+      textColor: "hover:text-[#E1306C]"
+    },
+    { 
+      Icon: Youtube, 
+      href: "https://youtube.com/bigolens", 
+      label: "YouTube",
+      bgColor: "hover:bg-[#FF0000]/20",
+      borderColor: "hover:border-[#FF0000]/40",
+      textColor: "hover:text-[#FF0000]"
+    },
+  ].map(({ Icon, href, label, bgColor, borderColor, textColor }) => (
+    <a 
+      key={href}
+      href={href}
+      target="_blank" 
+      rel="noopener noreferrer"
+      aria-label={label}
+      className={`
+        p-2 bg-white/5 border border-blue-500/20 rounded-lg 
+        transition-all duration-300 group
+        ${bgColor} ${borderColor} ${textColor}
+      `}
+    >
+      <Icon 
+        size={18} 
+        className="text-blue-300 group-hover:scale-110 transition-transform" 
+      />
+    </a>
+  ))}
+</div>
+        </div>
       </div>
-    </nav>
+
+      {/* ⚡ Bottom Bar */}
+      <div className="border-t border-[hsla(239,84%,70%,0.2)] py-4 text-center text-xs text-blue-300">
+        © {new Date().getFullYear()} <span className="text-cyan-300 font-semibold">BigO Lens</span> — All Rights Reserved.
+      </div>
+    </footer>
   );
 }
