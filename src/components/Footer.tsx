@@ -9,7 +9,7 @@ export default function Footer() {
         <div>
           <Link to="/" className="flex items-center mb-4">
             <img
-              src="/src/assets/logo33.png"
+              src="/src/assets/icon6.png"
               alt="BigO Lens Logo"
               className="w-20 h-20 drop-shadow-[0_0_12px_hsl(239,84%,70%)]"
             />

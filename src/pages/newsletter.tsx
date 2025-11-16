@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import newsletterImage from "@/assets/newsletter1.png";
+
 const Newsletter: React.FC = () => {
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState("");
@@ -72,7 +74,7 @@ const Newsletter: React.FC = () => {
               exit={{ opacity: 0 }}
               className="mt-6 text-green-400 font-medium"
             >
-              🎉 You’re subscribed! Welcome to the AI Growth Network.
+              🎉 You're subscribed! Welcome to the AI Growth Network.
             </motion.div>
           )}
         </AnimatePresence>
@@ -99,6 +101,55 @@ const Newsletter: React.FC = () => {
         </motion.div>
       </motion.div>
 
+      {/* Newsletter Image Section */}
+      <motion.div
+        className="mt-24 max-w-4xl w-full"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-cyan-500/20">
+          <img 
+            src={newsletterImage} 
+            alt="Newsletter Preview" 
+            className="w-full h-auto object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/60 to-transparent"></div>
+          
+          {/* Floating elements on image */}
+          <motion.div
+            className="absolute top-6 left-6 bg-gradient-to-r from-sky-500 to-cyan-400 text-gray-900 px-4 py-2 rounded-full font-semibold text-sm shadow-lg"
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
+            📰 Latest Edition
+          </motion.div>
+          
+          <motion.div
+            className="absolute bottom-6 right-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-lg"
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 4, repeat: Infinity }}
+          >
+            <div className="text-center">
+              <div className="text-2xl font-bold text-cyan-400">24K+</div>
+              <div className="text-xs text-gray-300">Weekly Readers</div>
+            </div>
+          </motion.div>
+        </div>
+        
+        {/* Image caption */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          viewport={{ once: true }}
+          className="text-center text-gray-400 mt-4 text-sm"
+        >
+          Get visually-rich, actionable insights delivered weekly
+        </motion.p>
+      </motion.div>
+
       {/* Product Highlights */}
       <div className="mt-24 max-w-5xl">
         <motion.h2
@@ -107,7 +158,7 @@ const Newsletter: React.FC = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          What You’ll Learn Each Week
+          What You'll Learn Each Week
         </motion.h2>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">

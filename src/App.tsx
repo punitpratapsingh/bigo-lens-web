@@ -22,6 +22,7 @@ import CaseStudies from "@/pages/CaseStudies";
 import ROICalculator from "@/pages/ROI";
 import WhyBigOLens from "@/pages/whyBigO";
 import Demo from "@/pages/demo";
+import CustomerReviews from "@/pages/TheWallOfLove";
 import Products from "@/pages/Products";
 import Pricing from "@/pages/Pricing";
 import About from "@/pages/About";
@@ -51,13 +52,12 @@ const App = () => (
           <Route path="/solutions/recommendation" element={<ProductRecommendation />} />
           <Route path="/solutions/personalization" element={<Personalization />} />
           <Route path="/solutions/imgtovideo" element={<ImgtoVideo />} />
-
           <Route path="/resources/blogs" element={<Blogs />} />
+          <Route path="/TheWallOfLove" element={<CustomerReviews />} />
           <Route path="/resources/newsletters" element={<Newsletter />} />
           <Route path="/resources/case-studies" element={<CaseStudies />} />
           <Route path="/resources/publications" element={<Publications />} />
           <Route path="/resources/roi-calculator" element={<ROICalculator />} />
-
           <Route path="/whyBigO" element={<WhyBigOLens />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/login" element={<Login />} />

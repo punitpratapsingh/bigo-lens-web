@@ -38,7 +38,7 @@ export default function Navbar() {
           {/* 🌟 Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <img
-              src="/src/assets/logo33.png"
+              src="/src/assets/screenshot (16).png"
               alt="BigO AI Logo"
               className="w-36 h-36 object-contain drop-shadow-[0_0_12px_hsl(239,84%,70%)] hover:scale-110 transition-transform duration-300"
             />
@@ -116,8 +116,11 @@ export default function Navbar() {
             <Link to="/contact" className="hover:text-cyan-300 transition">
               Contact Us
             </Link>
+            <Link to="/TheWallofLove" className="hover:text-cyan-300 transition">
+              Customer Reviews
+            </Link>
             <Link to="/login" className="hover:text-cyan-300 transition">
-              Login
+              Sign Up
             </Link>
 
             {/* CTA Button */}
@@ -201,8 +204,11 @@ export default function Navbar() {
             <Link to="/contact" className="block px-4 hover:text-cyan-300">
               Contact Us
             </Link>
+            <Link to="/TheWallOfLove" className="block px-4 hover:text-cyan-300">
+              Customer Reviews
+            </Link>
             <Link to="/login" className="block px-4 hover:text-cyan-300">
-              Login
+              Sign Up
             </Link>
 
             {/* CTA */}
