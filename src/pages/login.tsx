@@ -18,8 +18,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
 // 🖼️ Asset imports
-import loginImage from "@/assets/login.png";
-import backgroundPattern from "@/assets/case1.png";
+import loginImage from "/src/assets/login.png";
+import backgroundPattern from "/src/assets/case1.png";
 
 export default function Login() {
   const [formData, setFormData] = useState({

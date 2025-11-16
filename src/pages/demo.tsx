@@ -3,7 +3,7 @@ import { useState } from "react";
 import { 
   CheckCircle2, Zap, Users, BarChart3, Rocket, 
   Shield, ArrowRight, Calendar, Star, Target,
-  Search, Sparkles, Cpu, Eye, Tag
+  Search, Sparkles, Cpu, Eye, Tag, Clock, Video
 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -12,7 +12,6 @@ import { Card } from "@/components/ui/card";
 
 // 🖼️ Asset imports
 import demoImage from "@/assets/demo.png";
-import backgroundPattern from "@/assets/background-pattern.png";
 
 export default function RequestDemo() {
   const [formData, setFormData] = useState({
@@ -24,18 +23,84 @@ export default function RequestDemo() {
     companySize: "",
     industry: "",
     message: "",
+    demoDate: "",
+    demoTime: "",
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleTimeSelect = (time: string) => {
+    setFormData(prev => ({
+      ...prev,
+      demoTime: time
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form submitted:", formData);
     // Simulate backend submission
     setTimeout(() => setSubmitted(true), 1000);
   };
+
+  // Available time slots
+  const timeSlots = [
+    "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", 
+    "11:00 AM", "11:30 AM", "02:00 PM", "02:30 PM", 
+    "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM"
+  ];
+
+  // Next 14 days for date selection
+  const getAvailableDates = () => {
+    const dates = [];
+    const today = new Date();
+    for (let i = 1; i <= 14; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      // Exclude weekends
+      if (date.getDay() !== 0 && date.getDay() !== 6) {
+        dates.push({
+          value: date.toISOString().split('T')[0],
+          label: date.toLocaleDateString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+          })
+        });
+      }
+    }
+    return dates;
+  };
+
+  const availableDates = getAvailableDates();
+
+  const companySizes = [
+    { value: "", label: "Select size" },
+    { value: "1-10", label: "1-10 employees" },
+    { value: "11-50", label: "11-50 employees" },
+    { value: "51-200", label: "51-200 employees" },
+    { value: "201-500", label: "201-500 employees" },
+    { value: "501-1000", label: "501-1000 employees" },
+    { value: "1000+", label: "1000+ employees" }
+  ];
+
+  const industries = [
+    { value: "", label: "Select industry" },
+    { value: "fashion", label: "Fashion & Apparel" },
+    { value: "home", label: "Home & Decor" },
+    { value: "electronics", label: "Electronics" },
+    { value: "beauty", label: "Beauty & Cosmetics" },
+    { value: "jewelry", label: "Jewelry & Luxury" },
+    { value: "other Commerce", label: "Other Commerce" }
+  ];
 
   const features = [
     {
@@ -108,15 +173,15 @@ export default function RequestDemo() {
               className="inline-flex items-center gap-3 bg-cyan-500/20 backdrop-blur-sm rounded-full px-6 py-3 mb-6 border border-cyan-400/30 shadow-lg shadow-cyan-500/20"
             >
               <Calendar className="w-5 h-5 text-cyan-400" />
-              <span className="text-sm font-semibold text-cyan-100">Get Started</span>
+              <span className="text-sm font-semibold text-cyan-100">Schedule Your Demo</span>
             </motion.div>
 
             <h1 className="text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
-              Request a Demo
+              Book Your Demo
             </h1>
 
             <p className="text-xl text-blue-100 leading-relaxed max-w-2xl mx-auto">
-              Discover how our AI-powered platform can transform your e-commerce experience. 
+              Schedule a personalized demo and discover how our AI-powered platform can transform your e-commerce experience. 
               See firsthand how we drive engagement, conversion, and revenue growth.
             </p>
           </motion.div>
@@ -124,6 +189,41 @@ export default function RequestDemo() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-7xl mx-auto">
             {/* Left Side - Form Section */}
             <div className="space-y-8">
+              {/* Demo Session Info Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-md border border-cyan-500/30 rounded-2xl p-6"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <Video className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white">Google Meet Session</h3>
+                    <p className="text-cyan-200">Join via Google Meet link</p>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex items-center gap-3">
+                    <Clock className="w-5 h-5 text-cyan-400" />
+                    <div>
+                      <p className="text-sm text-blue-200">Duration</p>
+                      <p className="text-white font-medium">30-45 minutes</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Calendar className="w-5 h-5 text-cyan-400" />
+                    <div>
+                      <p className="text-sm text-blue-200">Schedule</p>
+                      <p className="text-white font-medium">Flexible timing</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
               {!submitted ? (
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
@@ -136,7 +236,7 @@ export default function RequestDemo() {
                     
                     <div className="relative z-10">
                       <h2 className="text-3xl font-bold text-white mb-2">Schedule Your Demo</h2>
-                      <p className="text-blue-200 mb-8">Fill out the form and we'll contact you within 24 hours</p>
+                      <p className="text-blue-200 mb-8">Choose your preferred time slot and we'll send you a Google Meet link</p>
 
                       <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -149,7 +249,7 @@ export default function RequestDemo() {
                               name="firstName"
                               required
                               value={formData.firstName}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20 transition-all duration-300"
                               placeholder="John"
                             />
@@ -163,7 +263,7 @@ export default function RequestDemo() {
                               name="lastName"
                               required
                               value={formData.lastName}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20 transition-all duration-300"
                               placeholder="Doe"
                             />
@@ -179,7 +279,7 @@ export default function RequestDemo() {
                             name="company"
                             required
                             value={formData.company}
-                            onChange={handleChange}
+                            onChange={handleInputChange}
                             className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20 transition-all duration-300"
                             placeholder="Your Company"
                           />
@@ -195,7 +295,7 @@ export default function RequestDemo() {
                               name="email"
                               required
                               value={formData.email}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20 transition-all duration-300"
                               placeholder="john@company.com"
                             />
@@ -208,11 +308,60 @@ export default function RequestDemo() {
                               type="tel"
                               name="phone"
                               value={formData.phone}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20 transition-all duration-300"
                               placeholder="+1 (555) 123-4567"
                             />
                           </div>
+                        </div>
+
+                        {/* Calendar Date Selection */}
+                        <div>
+                          <label className="block text-blue-200 text-sm font-medium mb-2">
+                            Preferred Date *
+                          </label>
+                          <select
+                            name="demoDate"
+                            value={formData.demoDate}
+                            onChange={handleInputChange}
+                            required
+                            className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-blue focus:outline-none focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20 transition-all duration-300"
+                          >
+                            <option value="">Select a date</option>
+                            {availableDates.map((date) => (
+                              <option key={date.value} value={date.value}>
+                                {date.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        {/* Time Slot Selection */}
+                        <div>
+                          <label className="block text-blue-200 text-sm font-medium mb-2">
+                            Preferred Time *
+                          </label>
+                          <div className="grid grid-cols-3 gap-2">
+                            {timeSlots.map((time) => (
+                              <button
+                                key={time}
+                                type="button"
+                                onClick={() => handleTimeSelect(time)}
+                                className={`p-3 rounded-xl border transition-all duration-300 text-sm font-medium ${
+                                  formData.demoTime === time
+                                    ? 'bg-cyan-500/20 border-cyan-400 text-cyan-100 shadow-lg shadow-cyan-500/20'
+                                    : 'bg-white/5 border-blue-500/30 text-blue-200 hover:bg-white/10 hover:border-cyan-400/50'
+                                }`}
+                              >
+                                {time}
+                              </button>
+                            ))}
+                          </div>
+                          {formData.demoTime && (
+                            <p className="text-cyan-400 text-sm mt-2">
+                              Selected: {formData.demoTime}
+                            </p>
+                          )}
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -223,16 +372,14 @@ export default function RequestDemo() {
                             <select
                               name="companySize"
                               value={formData.companySize}
-                              onChange={handleChange}
-                              className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20 transition-all duration-300"
+                              onChange={handleInputChange}
+                              className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-blue focus:outline-none focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20 transition-all duration-300"
                             >
-                              <option value="">Select size</option>
-                              <option value="1-10">1-10 employees</option>
-                              <option value="11-50">11-50 employees</option>
-                              <option value="51-200">51-200 employees</option>
-                              <option value="201-500">201-500 employees</option>
-                              <option value="501-1000">501-1000 employees</option>
-                              <option value="1000+">1000+ employees</option>
+                              {companySizes.map((size) => (
+                                <option key={size.value} value={size.value}>
+                                  {size.label}
+                                </option>
+                              ))}
                             </select>
                           </div>
                           <div>
@@ -242,16 +389,14 @@ export default function RequestDemo() {
                             <select
                               name="industry"
                               value={formData.industry}
-                              onChange={handleChange}
-                              className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20 transition-all duration-300"
+                              onChange={handleInputChange}
+                              className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-blue focus:outline-none focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20 transition-all duration-300"
                             >
-                              <option value="">Select industry</option>
-                              <option value="fashion">Fashion & Apparel</option>
-                              <option value="home">Home & Decor</option>
-                              <option value="electronics">Electronics</option>
-                              <option value="beauty">Beauty & Cosmetics</option>
-                              <option value="jewelry">Jewelry & Luxury</option>
-                              <option value="other">Other</option>
+                              {industries.map((industry) => (
+                                <option key={industry.value} value={industry.value}>
+                                  {industry.label}
+                                </option>
+                              ))}
                             </select>
                           </div>
                         </div>
@@ -264,7 +409,7 @@ export default function RequestDemo() {
                             name="message"
                             rows={4}
                             value={formData.message}
-                            onChange={handleChange}
+                            onChange={handleInputChange}
                             className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20 transition-all duration-300 resize-none"
                             placeholder="Tell us about your current e-commerce challenges and goals..."
                           ></textarea>
@@ -274,15 +419,16 @@ export default function RequestDemo() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           type="submit"
-                          className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white border-0 rounded-xl py-4 text-lg font-semibold transition-all duration-300 shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/40"
+                          disabled={!formData.demoDate || !formData.demoTime}
+                          className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed text-white border-0 rounded-xl py-4 text-lg font-semibold transition-all duration-300 shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/40 disabled:shadow-gray-500/25"
                         >
                           <Calendar className="w-5 h-5 inline mr-2" />
-                          Request Demo
+                          Schedule Demo
                           <ArrowRight className="w-4 h-4 inline ml-2" />
                         </motion.button>
 
                         <p className="text-center text-blue-300 text-sm">
-                          By submitting, you agree to our Privacy Policy. We'll never spam you.
+                          We'll send you a Google Meet link immediately after booking
                         </p>
                       </form>
                     </div>
@@ -306,15 +452,44 @@ export default function RequestDemo() {
                     >
                       <CheckCircle2 className="text-green-400 w-20 h-20 mx-auto mb-6 drop-shadow-lg" />
                     </motion.div>
-                    <h2 className="text-4xl font-bold text-white mb-4">Demo Request Received!</h2>
+                    <h2 className="text-4xl font-bold text-white mb-4">Demo Scheduled Successfully!</h2>
                     <p className="text-blue-100 text-lg mb-8 leading-relaxed">
-                      Thank you for your interest in BigOLens. Our team will contact you within 24 hours 
-                      to schedule your personalized demo and discuss how we can transform your e-commerce experience.
+                      Thank you for booking a demo with BigOLens. We've sent a confirmation email with your Google Meet details.
                     </p>
+                    
+                    {formData.demoDate && formData.demoTime && (
+                      <div className="bg-white/5 rounded-xl p-4 mb-6 border border-cyan-500/30">
+                        <p className="text-white font-semibold text-lg mb-2">
+                          Your Demo Schedule
+                        </p>
+                        <div className="flex items-center justify-center gap-4 text-cyan-100">
+                          <Calendar className="w-5 h-5" />
+                          <span>
+                            {new Date(formData.demoDate).toLocaleDateString('en-US', { 
+                              weekday: 'long', 
+                              year: 'numeric', 
+                              month: 'long', 
+                              day: 'numeric' 
+                            })}
+                          </span>
+                          <span>•</span>
+                          <Clock className="w-5 h-5" />
+                          <span>{formData.demoTime}</span>
+                        </div>
+                        <p className="text-cyan-300 text-sm mt-2">
+                          Duration: 30-45 minutes via Google Meet
+                        </p>
+                      </div>
+                    )}
+                    
                     <div className="space-y-4">
                       <div className="flex items-center justify-center gap-2 text-cyan-100">
-                        <Star className="w-4 h-4 fill-current drop-shadow-sm" />
-                        <span>Check your email for confirmation</span>
+                        <Video className="w-4 h-4 drop-shadow-sm" />
+                        <span>Check your email for Google Meet link</span>
+                      </div>
+                      <div className="flex items-center justify-center gap-2 text-cyan-100">
+                        <Clock className="w-4 h-4 drop-shadow-sm" />
+                        <span>Meeting duration: 30-45 minutes</span>
                       </div>
                       <div className="flex items-center justify-center gap-2 text-cyan-100">
                         <Users className="w-4 h-4 drop-shadow-sm" />
@@ -414,12 +589,12 @@ export default function RequestDemo() {
                 whileHover={{ scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <Card className="bg-gradient-to-br from-green-500/10 to-blue-500/10 border border-pink-500/30 rounded-3xl p-6 shadow-2xl shadow-blue-500/20 backdrop-blur-md">
-                  <h4 className="text-xl font-bold text-black mb-4 flex items-center gap-2">
-                    <Rocket className="w-5 h-5 text-black-400 drop-shadow-sm" />
+                <Card className="bg-gradient-to-br from-green-500/10 to-blue-500/10 border border-cyan-500/30 rounded-3xl p-6 shadow-2xl shadow-blue-500/20 backdrop-blur-md">
+                  <h4 className="text-xl font-bold text-blue mb-4 flex items-center gap-2">
+                    <Rocket className="w-5 h-5 text-cyan-400 drop-shadow-sm" />
                     Demo Highlights
                   </h4>
-                  <ul className="space-y-3 text-black-100">
+                  <ul className="space-y-3 text-blue-450">
                     {[
                       "Live platform walkthrough",
                       "Real-time visual search demo", 
@@ -434,7 +609,7 @@ export default function RequestDemo() {
                         transition={{ delay: index * 0.1 }}
                         className="flex items-center gap-3 group"
                       >
-                        <div className="w-2 h-2 bg-blue-400 rounded-full group-hover:scale-150 transition-transform duration-300 shadow-sm shadow-cyan-400/50"></div>
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full group-hover:scale-150 transition-transform duration-300 shadow-sm shadow-cyan-400/50"></div>
                         {item}
                       </motion.li>
                     ))}
