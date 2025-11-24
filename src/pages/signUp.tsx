@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 // Asset imports
-import signUpImage from "/src/assets/signUpp.png";
+import signUpImage from "/src/assets/SignUpp.png";
 
 interface SignUpForm {
   companyName: string;
