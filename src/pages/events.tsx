@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, Users, Mic, Target, Zap, ArrowRight, Search, ExternalLink, Sparkles, Camera, MapPin, Clock, Star } from "lucide-react";
+import { Calendar, Users, Mic, Target, Zap, ArrowRight, Search, Filter, ExternalLink, Sparkles, Heart, Share2 } from "lucide-react";
 
 type Event = {
   id: string;
@@ -12,6 +12,7 @@ type Event = {
   sessions: string[];
   discussions: string[];
   image: string;
+  status: "completed";
   partnersCount: number;
   sessionsCount: number;
   initiativesCount: number;
@@ -45,6 +46,7 @@ const EVENTS: Event[] = [
       "Collaborated with jewelry brands for virtual try-on"
     ],
     image: "/src/assets/events/Wedding Asia Mumbai.jpg",
+    status: "completed",
     partnersCount: 45,
     sessionsCount: 3,
     initiativesCount: 3
@@ -76,6 +78,7 @@ const EVENTS: Event[] = [
       "Explored blockchain for jewelry certification"
     ],
     image: "/src/assets/events/IIJS Signature Show.jpeg",
+    status: "completed",
     partnersCount: 38,
     sessionsCount: 4,
     initiativesCount: 3
@@ -107,6 +110,7 @@ const EVENTS: Event[] = [
       "Engaged with retail fashion brands"
     ],
     image: "/src/assets/events/Fashionista Nashik.jpg",
+    status: "completed",
     partnersCount: 52,
     sessionsCount: 3,
     initiativesCount: 4
@@ -138,6 +142,7 @@ const EVENTS: Event[] = [
       "Collaborated with design institutes"
     ],
     image: "/src/assets/events/Unique Gems and Jewellery International Show.jpg",
+    status: "completed",
     partnersCount: 41,
     sessionsCount: 3,
     initiativesCount: 3
@@ -169,6 +174,7 @@ const EVENTS: Event[] = [
       "Collaborated with craftsmanship preservation societies"
     ],
     image: "/src/assets/events/India Jewellery Show Mumbai.jpg",
+    status: "completed",
     partnersCount: 47,
     sessionsCount: 3,
     initiativesCount: 3
@@ -200,6 +206,7 @@ const EVENTS: Event[] = [
       "Collaborated with lifestyle brands"
     ],
     image: "/src/assets/events/Crescent Moon Exhibition.jpg",
+    status: "completed",
     partnersCount: 36,
     sessionsCount: 3,
     initiativesCount: 3
@@ -216,7 +223,7 @@ const EVENTS: Event[] = [
       "Inventory optimization"
     ],
     initiatives: [
-      "Discussed AI initiatives of the government",
+      "Discussed AI certification verification",
       "Introduced virtual gemstone appraisal",
       "Established industry standards collaboration"
     ],
@@ -231,6 +238,7 @@ const EVENTS: Event[] = [
       "Collaborated with certification authorities"
     ],
     image: "/src/assets/events/India Gem & Jewellery Show.jpg",
+    status: "completed",
     partnersCount: 44,
     sessionsCount: 3,
     initiativesCount: 3
@@ -262,6 +270,7 @@ const EVENTS: Event[] = [
       "Collaborated with fashion brands"
     ],
     image: "/src/assets/events/Denim Show.jpg",
+    status: "completed",
     partnersCount: 39,
     sessionsCount: 3,
     initiativesCount: 3
@@ -293,6 +302,7 @@ const EVENTS: Event[] = [
       "Collaborated with cosmetic companies"
     ],
     image: "/src/assets/events/Hair & Beauty Show India.jpg",
+    status: "completed",
     partnersCount: 42,
     sessionsCount: 3,
     initiativesCount: 3
@@ -309,7 +319,7 @@ const EVENTS: Event[] = [
       "Sustainable material analysis"
     ],
     initiatives: [
-      "Launched textile innovation platform",
+      "Discussed textile innovation platform",
       "Introduced sustainable sourcing AI",
       "Partnered with textile mills"
     ],
@@ -324,8 +334,457 @@ const EVENTS: Event[] = [
       "Collaborated with fashion houses"
     ],
     image: "/src/assets/events/Fibers N Yarns Expo.jpg",
+    status: "completed",
     partnersCount: 48,
     sessionsCount: 3,
+    initiativesCount: 3
+  },
+  {
+    id: "fashionista-mumbai-2025",
+    name: "Fashionista Mumbai",
+    description: "Platform for entrepreneurs and young designers to reach new horizons in fashion industry.",
+    category: "Fashion & Apparel",
+    bigOlensOfferings: [
+      "Design assistance AI",
+      "Market entry strategy",
+      "Customer segmentation",
+      "Brand positioning analysis"
+    ],
+    initiatives: [
+      "Mentored startup fashion brands",
+      "Discussed design innovation program",
+      "Established incubation support"
+    ],
+    sessions: [
+      "Fashion Entrepreneurship",
+      "Digital Brand Building",
+      "Market Access Strategies"
+    ],
+    discussions: [
+      "Met with emerging designers",
+      "Discussed manufacturing challenges",
+      "Collaborated with fashion schools"
+    ],
+    image: "/src/assets/events/Fashionista Mumbai.jpg",
+    status: "completed",
+    partnersCount: 28,
+    sessionsCount: 2,
+    initiativesCount: 2
+  },
+  {
+    id: "professional-beauty-2025",
+    name: "Professional Beauty Mumbai",
+    description: "Premier tradeshow dedicated to fashion and beauty industry showcasing latest products.",
+    category: "Beauty & Cosmetics",
+    bigOlensOfferings: [
+      "Virtual product testing",
+      "Beauty trend analysis",
+      "Personalized regimen planning",
+      "Ingredient analysis AI"
+    ],
+    initiatives: [
+      "Discussed virtual beauty counter",
+      "Introduced ingredient compatibility checker",
+      "Partnered with cosmetic chemists"
+    ],
+    sessions: [
+      "Beauty Tech Innovation",
+      "Personalized Cosmetics",
+      "Digital Beauty Experiences"
+    ],
+    discussions: [
+      "Engaged with beauty brands",
+      "Discussed product development",
+      "Collaborated with research labs"
+    ],
+    image: "/src/assets/events/Professional Beauty Mumbai.jpg",
+    status: "completed",
+    partnersCount: 35,
+    sessionsCount: 4,
+    initiativesCount: 3
+  },
+  {
+    id: "iifjas-2025",
+    name: "India International Fashion Jewellery & Accessories Show",
+    description: "International fashion jewellery industry trade show featuring latest designs.",
+    category: "Fashion & Jewelry",
+    bigOlensOfferings: [
+      "Fashion trend prediction",
+      "Accessory recommendation engine",
+      "Style matching algorithms",
+      "Seasonal collection planning"
+    ],
+    initiatives: [
+      "Discussed fashion AI assistant",
+      "Introduced style evolution tracking",
+      "Partnered with fashion influencers"
+    ],
+    sessions: [
+      "Fashion Technology Integration",
+      "Accessory Market Digitalization",
+      "Trend Forecasting with AI"
+    ],
+    discussions: [
+      "Met with accessory designers",
+      "Discussed global fashion trends",
+      "Collaborated with retail brands"
+    ],
+    image: "/src/assets/events/India International Fashion Jewellery & Accessories Show.jpg",
+    status: "completed",
+    partnersCount: 31,
+    sessionsCount: 3,
+    initiativesCount: 2
+  },
+  {
+    id: "giftex-2025",
+    name: "GIFTEX",
+    description: "India's biggest corporate gifting fair showcasing innovative gifting solutions.",
+    category: "Gifts & Corporate",
+    bigOlensOfferings: [
+      "Personalized gifting recommendations",
+      "Corporate gifting automation",
+      "Sentiment analysis for gifting",
+      "Bulk order management"
+    ],
+    initiatives: [
+      "Discussed AI gifting consultant",
+      "Introduced corporate gifting platform",
+      "Established B2B partnership network"
+    ],
+    sessions: [
+      "Corporate Gifting Revolution",
+      "Personalization at Scale",
+      "AI in Relationship Management"
+    ],
+    discussions: [
+      "Engaged with corporate HR teams",
+      "Discussed employee engagement solutions",
+      "Collaborated with gift manufacturers"
+    ],
+    image: "/src/assets/events/GIFTEX.jpg",
+    status: "completed",
+    partnersCount: 55,
+    sessionsCount: 2,
+    initiativesCount: 4
+  },
+  {
+    id: "bridal-asia-2025",
+    name: "Bridal Asia Mumbai",
+    description: "Handpicked collection of bridal couture, jewellery & accessories showcasing premium products.",
+    category: "Wedding & Bridal",
+    bigOlensOfferings: [
+      "Bridal style recommendations",
+      "Virtual wedding planning",
+      "Vendor matching algorithm",
+      "Budget optimization tools"
+    ],
+    initiatives: [
+      "Discussed comprehensive wedding suite",
+      "Introduced AI wedding planner",
+      "Established partnership network"
+    ],
+    sessions: [
+      "Digital Wedding Planning",
+      "Bridal Fashion Technology",
+      "Vendor Management Systems"
+    ],
+    discussions: [
+      "Engaged with luxury wedding planners",
+      "Discussed destination wedding tech",
+      "Collaborated with hospitality brands"
+    ],
+    image: "/src/assets/events/Bridal Asia Mumbai.jpg",
+    status: "completed",
+    partnersCount: 62,
+    sessionsCount: 5,
+    initiativesCount: 4
+  },
+  {
+    id: "silver-show-2025",
+    name: "Silver Show of India",
+    description: "Comprehensive showcase of silver products and innovations in jewelry industry.",
+    category: "Gems & Jewelry",
+    bigOlensOfferings: [
+      "Silver quality assessment",
+      "Design optimization AI",
+      "Market trend analysis",
+      "Pricing optimization"
+    ],
+    initiatives: [
+      "Discussed silver market insights",
+      "Introduced design innovation platform",
+      "Partnered with silver artisans"
+    ],
+    sessions: [
+      "Silver Industry Digital Transformation",
+      "AI in Precious Metals",
+      "Market Intelligence Systems"
+    ],
+    discussions: [
+      "Met with silver manufacturers",
+      "Discussed traditional craftsmanship",
+      "Collaborated with jewelry designers"
+    ],
+    image: "/src/assets/events/Silver Show of India.jpg",
+    status: "completed",
+    partnersCount: 33,
+    sessionsCount: 3,
+    initiativesCount: 2
+  },
+  {
+    id: "iijs-premiere-2025",
+    name: "IIJS Premiere Show",
+    description: "World's second-largest gem and jewellery B2B exhibition celebrating innovation.",
+    category: "Gems & Jewelry",
+    bigOlensOfferings: [
+      "Cutting-edge trend analysis",
+      "Network optimization AI",
+      "Innovation tracking",
+      "Partnership matching"
+    ],
+    initiatives: [
+      "Discussed industry innovation tracker",
+      "Introduced partnership platform",
+      "Established global connections"
+    ],
+    sessions: [
+      "Global Jewelry Trends",
+      "Innovation in Jewelry Industry",
+      "International Market Access"
+    ],
+    discussions: [
+      "Engaged with international buyers",
+      "Discussed global market trends",
+      "Collaborated with industry leaders"
+    ],
+    image: "/src/assets/events/IIJS Premiere Show.jpg",
+    status: "completed",
+    partnersCount: 67,
+    sessionsCount: 6,
+    initiativesCount: 5
+  },
+  {
+    id: "pink-almari-2024",
+    name: "Pink Almari",
+    description: "New Year & wedding shopping exhibition featuring diverse fashion and lifestyle products.",
+    category: "Fashion & Apparel",
+    bigOlensOfferings: [
+      "Seasonal trend analysis",
+      "Personal shopping assistant",
+      "Inventory optimization",
+      "Customer preference learning"
+    ],
+    initiatives: [
+      "Discussed seasonal trend predictor",
+      "Introduced personalized shopping AI",
+      "Partnered with fashion retailers"
+    ],
+    sessions: [
+      "Seasonal Fashion Trends",
+      "Personalized Shopping Experience",
+      "Retail Technology Integration"
+    ],
+    discussions: [
+      "Met with fashion retailers",
+      "Discussed consumer behavior",
+      "Collaborated with lifestyle brands"
+    ],
+    image: "/src/assets/events/Pink Almari.jpg",
+    status: "completed",
+    partnersCount: 41,
+    sessionsCount: 2,
+    initiativesCount: 3
+  },
+  {
+    id: "trousseau-show-2024",
+    name: "The Trousseau Show",
+    description: "Exclusive wedding and lifestyle exhibition showcasing bridal and festive collections.",
+    category: "Wedding & Bridal",
+    bigOlensOfferings: [
+      "Bridal trousseau planning",
+      "Virtual wardrobe management",
+      "Style coordination AI",
+      "Budget planning tools"
+    ],
+    initiatives: [
+      "Discussed trousseau planning suite",
+      "Introduced virtual wardrobe assistant",
+      "Partnered with bridal designers"
+    ],
+    sessions: [
+      "Digital Trousseau Planning",
+      "Bridal Fashion Coordination",
+      "Wedding Budget Management"
+    ],
+    discussions: [
+      "Engaged with bridal designers",
+      "Discussed wedding planning challenges",
+      "Collaborated with fashion stylists"
+    ],
+    image: "/src/assets/events/The Trousseau Show.jpg",
+    status: "completed",
+    partnersCount: 29,
+    sessionsCount: 3,
+    initiativesCount: 2
+  },
+  {
+    id: "parineeti-2024",
+    name: "PARINEETI - Rakhi and Trousseau Shopping",
+    description: "Shopping experience with 90+ exhibitors showcasing latest collections across categories.",
+    category: "Fashion & Apparel",
+    bigOlensOfferings: [
+      "Multi-category recommendations",
+      "Virtual shopping assistant",
+      "Cross-category styling",
+      "Personalized discovery"
+    ],
+    initiatives: [
+      "Discussed multi-vendor platform",
+      "Introduced cross-category styling AI",
+      "Partnered with diverse exhibitors"
+    ],
+    sessions: [
+      "Multi-Category Retail",
+      "Personalized Shopping",
+      "Vendor Management Technology"
+    ],
+    discussions: [
+      "Met with various product vendors",
+      "Discussed retail integration",
+      "Collaborated with small businesses"
+    ],
+    image: "/src/assets/events/PARINEETI - Rakhi and Trousseau Shopping.jpg",
+    status: "completed",
+    partnersCount: 74,
+    sessionsCount: 4,
+    initiativesCount: 3
+  },
+  {
+    id: "bridal-show-2024",
+    name: "The Bridal Show Jewellery & Wedding Exhibition",
+    description: "Luxurious shopping experience featuring wedding couture and exquisite jewels.",
+    category: "Wedding & Bridal",
+    bigOlensOfferings: [
+      "Luxury experience enhancement",
+      "Premium vendor matching",
+      "Exclusive collection access",
+      "High-end customer service"
+    ],
+    initiatives: [
+      "Discussed luxury experience platform",
+      "Introduced premium vendor network",
+      "Partnered with luxury brands"
+    ],
+    sessions: [
+      "Luxury Retail Technology",
+      "Premium Customer Experience",
+      "High-End Market Digitalization"
+    ],
+    discussions: [
+      "Engaged with luxury brands",
+      "Discussed premium market needs",
+      "Collaborated with high-end retailers"
+    ],
+    image: "/src/assets/events/The Bridal Show Jewellery & Wedding Exhibition.jpg",
+    status: "completed",
+    partnersCount: 38,
+    sessionsCount: 3,
+    initiativesCount: 2
+  },
+  {
+    id: "bridal-jewellery-2024",
+    name: "Bridal Jewellery Exhibition",
+    description: "India's most premium B2C jewellery exhibition showcasing exclusive collections.",
+    category: "Gems & Jewelry",
+    bigOlensOfferings: [
+      "Premium customer targeting",
+      "Exclusive collection access",
+      "Luxury market analytics",
+      "High-value customer insights"
+    ],
+    initiatives: [
+      "Discussed premium market platform",
+      "Introduced luxury customer insights",
+      "Partnered with exclusive jewelers"
+    ],
+    sessions: [
+      "Premium Market Strategies",
+      "Luxury Customer Engagement",
+      "Exclusive Retail Technology"
+    ],
+    discussions: [
+      "Met with premium jewelers",
+      "Discussed luxury market trends",
+      "Collaborated with exclusive brands"
+    ],
+    image: "/src/assets/events/Bridal Jewellery Exhibition.jpg",
+    status: "completed",
+    partnersCount: 26,
+    sessionsCount: 2,
+    initiativesCount: 1
+  },
+  {
+    id: "tech-fashion-summit-2024",
+    name: "Tech Fashion Summit",
+    description: "Leading conference exploring the intersection of technology and fashion industry.",
+    category: "Fashion & Technology",
+    bigOlensOfferings: [
+      "Smart fabric analysis",
+      "Wearable tech integration",
+      "Supply chain digitalization",
+      "Consumer behavior prediction"
+    ],
+    initiatives: [
+      "Discussed tech-fashion integration platform",
+      "Introduced smart manufacturing solutions",
+      "Partnered with tech startups"
+    ],
+    sessions: [
+      "Future of Fashion Technology",
+      "AI in Textile Innovation",
+      "Digital Supply Chain Revolution"
+    ],
+    discussions: [
+      "Engaged with tech innovators",
+      "Discussed IoT in fashion",
+      "Collaborated with research institutions"
+    ],
+    image: "/src/assets/events/Tech Fashion Summit.jpg",
+    status: "completed",
+    partnersCount: 58,
+    sessionsCount: 5,
+    initiativesCount: 4
+  },
+  {
+    id: "beauty-innovation-forum-2024",
+    name: "Beauty Innovation Forum",
+    description: "Platform for beauty industry leaders to discuss technological advancements and market trends.",
+    category: "Beauty & Cosmetics",
+    bigOlensOfferings: [
+      "Skin analysis technology",
+      "Personalized product formulation",
+      "Beauty trend forecasting",
+      "Virtual try-on solutions"
+    ],
+    initiatives: [
+      "Discussed beauty tech accelerator",
+      "Introduced AI formulation assistant",
+      "Partnered with cosmetic scientists"
+    ],
+    sessions: [
+      "Beauty Tech Revolution",
+      "Personalized Cosmetics Future",
+      "Digital Beauty Transformation"
+    ],
+    discussions: [
+      "Met with beauty tech startups",
+      "Discussed sustainable beauty",
+      "Collaborated with dermatologists"
+    ],
+    image: "/src/assets/events/Beauty Innovation Forum.png",
+    status: "completed",
+    partnersCount: 43,
+    sessionsCount: 4,
     initiativesCount: 3
   }
 ];
@@ -339,63 +798,29 @@ const EventCard: React.FC<{ event: Event; index: number }> = ({ event, index }) 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="bg-gradient-to-br from-slate-800/50 to-purple-900/30 backdrop-blur-xl rounded-2xl border border-cyan-500/30 overflow-hidden hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 group"
+      className="bg-gradient-to-br from-slate-800/50 to-purple-900/30 backdrop-blur-xl rounded-2xl border border-cyan-500/30 overflow-hidden hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300"
     >
       <div className="relative h-48 overflow-hidden">
-        <motion.img
+        <img
           src={event.image}
           alt={event.name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.3 }}
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         />
-        
-        {/* Top Left Icons */}
-        <div className="absolute top-3 left-3 flex gap-2">
-          <motion.div
-            className="p-1.5 bg-cyan-500/20 backdrop-blur-sm rounded-lg border border-cyan-500/30"
-            whileHover={{ scale: 1.1 }}
-            transition={{ type: "spring", stiffness: 400 }}
-          >
-            <Camera className="w-3 h-3 text-cyan-300" />
-          </motion.div>
-          <motion.div
-            className="p-1.5 bg-purple-500/20 backdrop-blur-sm rounded-lg border border-purple-500/30"
-            whileHover={{ scale: 1.1 }}
-            transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
-          >
-            <MapPin className="w-3 h-3 text-purple-300" />
-          </motion.div>
-        </div>
-
-        {/* Top Right Icons */}
-        <div className="absolute top-3 right-3 flex gap-2">
-          <motion.div
-            className="p-1.5 bg-green-500/20 backdrop-blur-sm rounded-lg border border-green-500/30"
-            whileHover={{ scale: 1.1 }}
-            transition={{ type: "spring", stiffness: 400, delay: 0.2 }}
-          >
-            <Clock className="w-3 h-3 text-green-300" />
-          </motion.div>
-          <motion.div
-            className="p-1.5 bg-yellow-500/20 backdrop-blur-sm rounded-lg border border-yellow-500/30"
-            whileHover={{ scale: 1.1 }}
-            transition={{ type: "spring", stiffness: 400, delay: 0.3 }}
-          >
-            <Star className="w-3 h-3 text-yellow-300" />
-          </motion.div>
-        </div>
+        {/* Clean image - no icons */}
       </div>
 
       <div className="p-6">
-        <motion.h3 
-          className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors duration-300"
-          whileHover={{ scale: 1.02 }}
-        >
-          {event.name}
-        </motion.h3>
+        {/* Category Badge */}
+        <div className="mb-3">
+          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+            {event.category}
+          </span>
+        </div>
+
+        <h3 className="text-xl font-bold text-white mb-2">{event.name}</h3>
         <p className="text-cyan-100 text-sm mb-4 leading-relaxed">{event.description}</p>
 
+        {/* Varying counts for each event */}
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div className="text-center">
             <Users className="w-4 h-4 text-cyan-400 mx-auto mb-1" />
@@ -409,13 +834,6 @@ const EventCard: React.FC<{ event: Event; index: number }> = ({ event, index }) 
             <Target className="w-4 h-4 text-green-400 mx-auto mb-1" />
             <span className="text-xs text-green-300">{event.initiativesCount} Initiatives</span>
           </div>
-        </div>
-
-        {/* Category Badge at Bottom */}
-        <div className="flex justify-center mb-4">
-          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 backdrop-blur-sm">
-            {event.category}
-          </span>
         </div>
 
         <AnimatePresence>
@@ -434,16 +852,10 @@ const EventCard: React.FC<{ event: Event; index: number }> = ({ event, index }) 
                 </h4>
                 <ul className="text-xs text-cyan-100 space-y-1">
                   {event.bigOlensOfferings.map((offering, idx) => (
-                    <motion.li 
-                      key={idx} 
-                      className="flex items-start gap-2"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: idx * 0.1 }}
-                    >
+                    <li key={idx} className="flex items-start gap-2">
                       <div className="w-1 h-1 bg-cyan-400 rounded-full mt-2 flex-shrink-0" />
                       {offering}
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -452,16 +864,10 @@ const EventCard: React.FC<{ event: Event; index: number }> = ({ event, index }) 
                 <h4 className="text-sm font-semibold text-green-300 mb-2">Key Initiatives</h4>
                 <ul className="text-xs text-green-100 space-y-1">
                   {event.initiatives.map((initiative, idx) => (
-                    <motion.li 
-                      key={idx} 
-                      className="flex items-start gap-2"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: idx * 0.1 }}
-                    >
+                    <li key={idx} className="flex items-start gap-2">
                       <div className="w-1 h-1 bg-green-400 rounded-full mt-2 flex-shrink-0" />
                       {initiative}
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -471,16 +877,10 @@ const EventCard: React.FC<{ event: Event; index: number }> = ({ event, index }) 
                   <h4 className="text-sm font-semibold text-purple-300 mb-2">Sessions Conducted</h4>
                   <ul className="text-xs text-purple-100 space-y-1">
                     {event.sessions.map((session, idx) => (
-                      <motion.li 
-                        key={idx} 
-                        className="flex items-start gap-2"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: idx * 0.1 }}
-                      >
+                      <li key={idx} className="flex items-start gap-2">
                         <div className="w-1 h-1 bg-purple-400 rounded-full mt-2 flex-shrink-0" />
                         {session}
-                      </motion.li>
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -488,16 +888,10 @@ const EventCard: React.FC<{ event: Event; index: number }> = ({ event, index }) 
                   <h4 className="text-sm font-semibold text-yellow-300 mb-2">Key Discussions</h4>
                   <ul className="text-xs text-yellow-100 space-y-1">
                     {event.discussions.map((discussion, idx) => (
-                      <motion.li 
-                        key={idx} 
-                        className="flex items-start gap-2"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: idx * 0.1 }}
-                      >
+                      <li key={idx} className="flex items-start gap-2">
                         <div className="w-1 h-1 bg-yellow-400 rounded-full mt-2 flex-shrink-0" />
                         {discussion}
-                      </motion.li>
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -506,11 +900,9 @@ const EventCard: React.FC<{ event: Event; index: number }> = ({ event, index }) 
           )}
         </AnimatePresence>
 
-        <motion.button
+        <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full mt-4 py-2 px-4 bg-cyan-500/20 text-cyan-300 rounded-lg border border-cyan-500/30 hover:bg-cyan-500/30 transition-all duration-300 flex items-center justify-center gap-2 group"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          className="w-full mt-4 py-2 px-4 bg-cyan-500/20 text-cyan-300 rounded-lg border border-cyan-500/30 hover:bg-cyan-500/30 transition-all duration-300 flex items-center justify-center gap-2"
         >
           {isExpanded ? "Show Less" : "Learn More"}
           <motion.div
@@ -519,7 +911,7 @@ const EventCard: React.FC<{ event: Event; index: number }> = ({ event, index }) 
           >
             <ArrowRight className="w-4 h-4" />
           </motion.div>
-        </motion.button>
+        </button>
       </div>
     </motion.div>
   );
@@ -596,12 +988,13 @@ export default function EventsPage(): JSX.Element {
             transition={{ duration: 0.8, delay: 0.5 }}
           >
             Discover how BigOlens is revolutionizing industries through AI-powered solutions. 
-            We've participated in {EVENTS.length}+ events, connecting with industry leaders and driving innovation across fashion, jewelry, wedding, and beauty sectors.
+            We've participated in 50+ events, connecting with industry leaders and driving innovation across fashion, jewelry, wedding, and beauty sectors.
           </motion.p>
         </div>
       </motion.header>
 
       <main className="max-w-7xl mx-auto px-6 pb-20 relative z-10">
+        {/* Category Filter Section */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -609,28 +1002,19 @@ export default function EventsPage(): JSX.Element {
           className="mb-12"
         >
           <div className="bg-slate-800/30 backdrop-blur-lg rounded-2xl p-6 border border-cyan-500/20">
-            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-              <div className="relative flex-1 w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-cyan-400 w-5 h-5" />
-                <input
-                  type="text"
-                  placeholder="Search events..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-cyan-500/30 rounded-lg text-white placeholder-cyan-200/50 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent"
-                />
-              </div>
+            <div className="flex items-center gap-3 mb-4">
+              <Filter className="w-5 h-5 text-cyan-400" />
+              <h3 className="text-lg font-semibold text-cyan-300">Sort by Category</h3>
             </div>
-
-            <div className="flex flex-wrap gap-2 mt-4">
+            <div className="flex flex-wrap gap-3">
               {categories.map((category) => (
                 <motion.button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
                   className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-all ${
                     selectedCategory === category
-                      ? "bg-purple-500 text-white shadow-lg shadow-purple-500/25"
-                      : "bg-slate-700/50 text-purple-200 border border-purple-500/20 hover:bg-slate-600/50"
+                      ? "bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-lg shadow-cyan-500/25"
+                      : "bg-slate-700/50 text-cyan-200 border border-cyan-500/20 hover:bg-slate-600/50 hover:border-cyan-500/40"
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -642,6 +1026,28 @@ export default function EventsPage(): JSX.Element {
           </div>
         </motion.section>
 
+        {/* Search Section */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="mb-12"
+        >
+          <div className="bg-slate-800/30 backdrop-blur-lg rounded-2xl p-6 border border-cyan-500/20">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-cyan-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search events by name or description..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-cyan-500/30 rounded-lg text-white placeholder-cyan-200/50 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent"
+              />
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Events Grid */}
         <motion.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -678,6 +1084,7 @@ export default function EventsPage(): JSX.Element {
           )}
         </motion.section>
 
+        {/* Stats Section */}
         <motion.section
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -717,7 +1124,7 @@ export default function EventsPage(): JSX.Element {
           </div>
         </motion.section>
 
-        {/* CTA Section */}
+        {/* Bottom Buttons Section */}
         <motion.section
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -769,48 +1176,57 @@ export default function EventsPage(): JSX.Element {
           </motion.div>
         </motion.section>
 
-        {/* Enhanced Navigation Buttons */}
+        {/* Navigation Buttons */}
         <motion.section
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col sm:flex-row justify-center gap-6"
+          className="flex flex-col sm:flex-row justify-center gap-4"
         >
           <motion.button
-            className="px-8 py-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 rounded-xl border border-purple-500/30 hover:bg-purple-500/30 transition-all flex items-center gap-3 group"
-            whileHover={{ scale: 1.05, y: -2 }}
+            className="px-6 py-3 bg-purple-500/20 text-purple-300 rounded-lg border border-purple-500/30 hover:bg-purple-500/30 transition-all flex items-center gap-2"
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Calendar className="w-6 h-6 group-hover:scale-110 transition-transform" />
-            <span className="font-semibold">View Our Services</span>
+            <Calendar className="w-5 h-5" />
+            View Our Services
           </motion.button>
           
           <motion.button
-            className="px-8 py-4 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-300 rounded-xl border border-cyan-500/30 hover:bg-cyan-500/30 transition-all flex items-center gap-3 group"
-            whileHover={{ scale: 1.05, y: -2 }}
+            className="px-6 py-3 bg-cyan-500/20 text-cyan-300 rounded-lg border border-cyan-500/30 hover:bg-cyan-500/30 transition-all flex items-center gap-2"
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Users className="w-6 h-6 group-hover:scale-110 transition-transform" />
-            <span className="font-semibold">Meet Our Team</span>
+            <Users className="w-5 h-5" />
+            Meet Our Team
           </motion.button>
           
           <motion.button
-            className="px-8 py-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 rounded-xl border border-green-500/30 hover:bg-green-500/30 transition-all flex items-center gap-3 group"
-            whileHover={{ scale: 1.05, y: -2 }}
+            className="px-6 py-3 bg-green-500/20 text-green-300 rounded-lg border border-green-500/30 hover:bg-green-500/30 transition-all flex items-center gap-2"
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Target className="w-6 h-6 group-hover:scale-110 transition-transform" />
-            <span className="font-semibold">Success Stories</span>
+            <Target className="w-5 h-5" />
+            Our Success Stories
           </motion.button>
 
           <motion.button
-            className="px-8 py-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-300 rounded-xl border border-yellow-500/30 hover:bg-yellow-500/30 transition-all flex items-center gap-3 group"
-            whileHover={{ scale: 1.05, y: -2 }}
+            className="px-6 py-3 bg-pink-500/20 text-pink-300 rounded-lg border border-pink-500/30 hover:bg-pink-500/30 transition-all flex items-center gap-2"
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Star className="w-6 h-6 group-hover:scale-110 transition-transform" />
-            <span className="font-semibold">Case Studies</span>
+            <Heart className="w-5 h-5" />
+            Client Testimonials
+          </motion.button>
+
+          <motion.button
+            className="px-6 py-3 bg-yellow-500/20 text-yellow-300 rounded-lg border border-yellow-500/30 hover:bg-yellow-500/30 transition-all flex items-center gap-2"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Share2 className="w-5 h-5" />
+            Share Our Journey
           </motion.button>
         </motion.section>
       </main>
