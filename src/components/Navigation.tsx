@@ -149,7 +149,7 @@ export default function Navbar() {
     },
     {
       icon: BookOpen,
-      name: "Publications",
+      name: "Research & Publications",
       description: "Research papers and white papers",
       color: "text-cyan-400",
       bgColor: "bg-cyan-500/10",
