@@ -46,7 +46,7 @@ export default function Navbar() {
   const solutions = [
     {
       icon: Search,
-      name: "Product Discovery",
+      name: "Lens Search",
       description: "AI-powered search and product finding",
       color: "text-blue-400",
       bgColor: "bg-blue-500/10",
@@ -55,7 +55,7 @@ export default function Navbar() {
     },
     {
       icon: Palette,
-      name: "Description Generation",
+      name: "Lens Image Describe",
       description: "Automated product description creation",
       color: "text-cyan-400",
       bgColor: "bg-cyan-500/10",
@@ -64,7 +64,7 @@ export default function Navbar() {
     },
     {
       icon: Tag,
-      name: "Automatic Tagging",
+      name: "Lens Tag",
       description: "Intelligent product categorization",
       color: "text-blue-400",
       bgColor: "bg-blue-500/10",
@@ -73,7 +73,7 @@ export default function Navbar() {
     },
     {
       icon: BarChart3,
-      name: "Product Recommendation & Analytics",
+      name: "Lens RECOM",
       description: "Personalized recommendations and insights",
       color: "text-cyan-400",
       bgColor: "bg-cyan-500/10",
@@ -82,7 +82,7 @@ export default function Navbar() {
     },
     {
       icon: Sparkles,
-      name: "Hyper-Personalization",
+      name: "Lens Personalization",
       description: "Tailored shopping experiences",
       color: "text-blue-400",
       bgColor: "bg-blue-500/10",
@@ -91,7 +91,7 @@ export default function Navbar() {
     },
     {
       icon: Video,
-      name: "Image to Video Conversion",
+      name: "Lens Img2Video",
       description: "Transform images into engaging videos",
       color: "text-cyan-400",
       bgColor: "bg-cyan-500/10",
@@ -100,7 +100,7 @@ export default function Navbar() {
     },
     {
       icon: Camera,
-      name: "Virtual Try-On",
+      name: "Lens VTO (Virtual Try-On)",
       description: "Augmented reality product visualization",
       color: "text-blue-400",
       bgColor: "bg-blue-500/10",
@@ -109,7 +109,7 @@ export default function Navbar() {
     },
     {
       icon: Cpu,
-      name: "Multi-Object Classification",
+      name: "Lens MOC",
       description: "Advanced image recognition and categorization",
       color: "text-cyan-400",
       bgColor: "bg-cyan-500/10",
