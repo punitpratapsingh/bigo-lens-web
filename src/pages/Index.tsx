@@ -3,85 +3,196 @@ import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { 
-  ArrowRight, Sparkles, BarChart3, 
-  Shield, Users, Star, Zap, TrendingUp, Search, Cpu, Rocket,
-  ChevronLeft, ChevronRight, Play, Pause, Mail, Phone, Calendar,
-  ChevronDown, HelpCircle, ArrowUp, Facebook, Twitter, Instagram, 
-  Linkedin, Youtube, PieChart, LineChart, BarChart
+  ArrowRight, Sparkles, Shield, Users, Star, Zap, 
+  Search, Cpu, Rocket, Play, Phone, Calendar,
+  ChevronDown, ArrowUp, Brain, Eye, Tag, BarChart3,
+  Palette, Video, Camera, Database, Cloud, Server,
+  CheckCircle, TrendingUp, Target, Globe, Lock,
+  Workflow, Code, Mail, Scale
 } from "lucide-react";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import CountUp from "react-countup";
+
+// Recharts imports for analytics - FIXED: Correct import names
 import {
-  LineChart as RechartsLine,
+  LineChart,
+  BarChart,
   Line,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
-  BarChart as RechartsBar,
-  Bar,
   Legend,
-  PieChart as RechartsPie,
-  Pie,
-  Cell,
-  AreaChart,
-  Area
-} from "recharts";
+  ResponsiveContainer
+} from 'recharts';
 
-// 🖼️ Asset imports
-import featureShowcase from "@/assets/1 (17).png";
+// Asset imports - FIXED: Added proper type declarations and fallbacks
+const aiDashboard = "/src/assets/ai-dashboard.png";
+const enterpriseIntegration = "/src/assets/home1.png";
+const apiArchitecture = "/src/assets/home2.png";
 
-// Carousel Images
-import carouselImg1 from "@/assets/img1.png";
-import carouselImg2 from "@/assets/img2.png";
-import carouselImg3 from "@/assets/img3.png";
-import carouselImg4 from "@/assets/img4.png";
-import carouselImg5 from "@/assets/img5.png";
+// Component imports
+import KPICarousel from "@/components/KPICarousel";
 
-// 📊 Analytics Data
+// AI Services Data
+const aiServices = [
+  {
+    icon: Search,
+    name: "Product Discovery",
+    description: "AI-powered visual search that understands context, style, and intent",
+    features: ["Visual similarity matching", "Semantic search", "Multi-modal understanding"],
+    useCase: "Reduce search abandonment by 68%",
+    color: "from-blue-500 to-cyan-500",
+    delay: 0
+  },
+  {
+    icon: Palette,
+    name: "Description Generation",
+    description: "Automatically create compelling, SEO-optimized product descriptions",
+    features: ["Natural language generation", "Brand voice consistency", "Multi-language support"],
+    useCase: "Scale content creation 10x faster",
+    color: "from-green-500 to-emerald-500",
+    delay: 0.1
+  },
+  {
+    icon: Tag,
+    name: "Automatic Tagging",
+    description: "Intelligent categorization and metadata generation for your entire catalog",
+    features: ["Attribute extraction", "Category prediction", "Quality scoring"],
+    useCase: "Process 10,000+ products in minutes",
+    delay: 0.2
+  },
+  {
+    icon: BarChart3,
+    name: "Product Recommendation & Analytics",
+    description: "Personalized recommendations with real-time performance analytics",
+    features: ["Behavioral analysis", "A/B testing", "ROI tracking"],
+    useCase: "Increase AOV by 45%",
+    color: "from-purple-500 to-pink-500",
+    delay: 0.3
+  },
+  {
+    icon: Brain,
+    name: "Hyper-Personalization",
+    description: "Individualized shopping experiences powered by deep learning",
+    features: ["Real-time adaptation", "Cross-channel consistency", "Predictive modeling"],
+    useCase: "Boost conversion rates 7x",
+    color: "from-orange-500 to-red-500",
+    delay: 0.4
+  },
+  {
+    icon: Video,
+    name: "Image to Video Conversion",
+    description: "Transform product images into engaging video content automatically",
+    features: ["AI video generation", "Background removal", "Dynamic compositions"],
+    useCase: "Create 100+ videos daily",
+    color: "from-indigo-500 to-purple-500",
+    delay: 0.5
+  },
+  {
+    icon: Camera,
+    name: "Virtual Try-On",
+    description: "Augmented reality experiences for realistic product visualization",
+    features: ["Real-time rendering", "Size accuracy", "Multi-product try-on"],
+    useCase: "Reduce returns by 40%",
+    color: "from-cyan-500 to-blue-500",
+    delay: 0.6
+  },
+  {
+    icon: Cpu,
+    name: "Multi-Object Classification",
+    description: "Advanced computer vision for complex scene understanding",
+    features: ["Object detection", "Relationship mapping", "Context awareness"],
+    useCase: "Process complex images with 99.2% accuracy",
+    color: "from-violet-500 to-purple-500",
+    delay: 0.7
+  }
+];
+
+// Technical Capabilities
+const technicalCapabilities = [
+  {
+    icon: Cloud,
+    title: "Scalable Infrastructure",
+    description: "Handle millions of requests with 99.9% uptime SLA",
+    metrics: "10M+ daily API calls"
+  },
+  {
+    icon: Lock,
+    title: "Enterprise Security",
+    description: "SOC 2 Type II compliant with end-to-end encryption",
+    metrics: "Zero data breaches"
+  },
+  {
+    icon: Mail,
+    title: "Seamless Integration",
+    description: "RESTful APIs with comprehensive SDKs and documentation",
+    metrics: "2-week average implementation"
+  },
+  {
+    icon: Scale,
+    title: "Global Performance",
+    description: "Multi-region deployment with <100ms response times",
+    metrics: "15 global edge locations"
+  }
+];
+
+// Enterprise Features
+const enterpriseFeatures = [
+  {
+    icon: Workflow,
+    title: "Custom AI Models",
+    description: "Tailored machine learning models trained on your specific data and business goals"
+  },
+  {
+    icon: Play,
+    title: "Comprehensive APIs",
+    description: "RESTful APIs with real-time streaming, webhooks, and extensive documentation"
+  },
+  {
+    icon: Database,
+    title: "Data Pipeline Management",
+    description: "End-to-end data processing with monitoring, logging, and analytics"
+  },
+  {
+    icon: Server,
+    title: "On-Premise Deployment",
+    description: "Self-hosted solutions for maximum data control and compliance"
+  }
+];
+
+// Case Study Metrics
+const caseStudyMetrics = [
+  { value: 45, suffix: "%", label: "Increase in Average Order Value" },
+  { value: 7, suffix: "x", label: "Higher Conversion Rates" },
+  { value: 68, suffix: "%", label: "Reduction in Search Abandonment" },
+  { value: 40, suffix: "%", label: "Decrease in Product Returns" }
+];
+
+// Analytics Data
+const performanceMetrics = [
+  { metric: "Conversion Rate", value: "4.8", change: "+12%", trend: "up" as const },
+  { metric: "Click-Through Rate", value: "18.2", change: "+5%", trend: "up" as const },
+  { metric: "Avg Session Time", value: "3.2", change: "+8%", trend: "up" as const },
+  { metric: "Bounce Rate", value: "32.1", change: "-15%", trend: "down" as const }
+];
+
 const conversionData = [
-  { month: "Jan", conv: 1.8, ctr: 3.2 },
-  { month: "Feb", conv: 2.0, ctr: 3.6 },
-  { month: "Mar", conv: 2.6, ctr: 4.1 },
-  { month: "Apr", conv: 3.2, ctr: 4.8 },
-  { month: "May", conv: 3.8, ctr: 5.2 },
-  { month: "Jun", conv: 4.4, ctr: 5.9 },
-  { month: "Jul", conv: 4.9, ctr: 6.3 },
-  { month: "Aug", conv: 5.1, ctr: 6.5 },
-  { month: "Sep", conv: 5.4, ctr: 6.9 },
-  { month: "Oct", conv: 5.7, ctr: 7.2 },
+  { month: 'Jan', conv: 3.2, ctr: 12.1 },
+  { month: 'Feb', conv: 3.8, ctr: 14.2 },
+  { month: 'Mar', conv: 4.1, ctr: 15.8 },
+  { month: 'Apr', conv: 4.5, ctr: 16.5 },
+  { month: 'May', conv: 4.8, ctr: 18.2 },
+  { month: 'Jun', conv: 5.2, ctr: 19.1 }
 ];
 
 const coverageData = [
-  { cohort: "Top 10%", coverage: 92, aovLift: 18 },
-  { cohort: "Top 20%", coverage: 85, aovLift: 14 },
-  { cohort: "Long-tail", coverage: 42, aovLift: 6 },
-];
-
-const strategySplit = [
-  { name: "Similar Items", value: 45, color: "#22d3ee" },
-  { name: "Personalized Picks", value: 30, color: "#0ea5e9" },
-  { name: "Shop the Look", value: 15, color: "#1d4ed8" },
-  { name: "Trending / Merch", value: 10, color: "#0369a1" },
-];
-
-const performanceMetrics = [
-  { metric: "Visual Match Accuracy", value: 99.2, change: "+2.1%", trend: "up" },
-  { metric: "Recommendation CTR", value: 7.2, change: "+15%", trend: "up" },
-  { metric: "AOV Lift", value: 18.5, change: "+3.2%", trend: "up" },
-  { metric: "Search-to-Purchase Time", value: 32, change: "-12%", trend: "down" },
-];
-
-const userEngagementData = [
-  { day: "Mon", engagement: 45, sessions: 1200 },
-  { day: "Tue", engagement: 52, sessions: 1400 },
-  { day: "Wed", engagement: 48, sessions: 1300 },
-  { day: "Thu", engagement: 61, sessions: 1600 },
-  { day: "Fri", engagement: 58, sessions: 1550 },
-  { day: "Sat", engagement: 72, sessions: 2100 },
-  { day: "Sun", engagement: 68, sessions: 1900 },
+  { cohort: 'Q1', coverage: 45, aovLift: 12 },
+  { cohort: 'Q2', coverage: 62, aovLift: 18 },
+  { cohort: 'Q3', coverage: 78, aovLift: 25 },
+  { cohort: 'Q4', coverage: 85, aovLift: 32 }
 ];
 
 // ⌨️ Typewriter Component
@@ -464,7 +575,7 @@ const AnalyticsBentoGrid = () => {
   const [showMetric, setShowMetric] = useState<"conv" | "ctr">("conv");
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-900/80 to-blue-900/80 relative overflow-hidden backdrop-blur-sm">
+    <section className="py-12 bg-gradient-to-br from-slate-900/80 to-blue-900/80 relative overflow-hidden backdrop-blur-sm">
       <div className="absolute inset-0 bg-grid-cyan-500/[0.02] bg-[size:60px_60px]"></div>
       <div className="container mx-auto px-6 relative z-10">
         <FadeInWhenVisible>
@@ -534,7 +645,7 @@ const AnalyticsBentoGrid = () => {
 
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <RechartsLine data={conversionData}>
+                  <LineChart data={conversionData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                     <XAxis 
                       dataKey="month" 
@@ -561,7 +672,7 @@ const AnalyticsBentoGrid = () => {
                       dot={{ r: 4, fill: "#22d3ee" }}
                       activeDot={{ r: 6, fill: "#0ea5e9" }}
                     />
-                  </RechartsLine>
+                  </LineChart>
                 </ResponsiveContainer>
               </div>
             </motion.div>
@@ -577,7 +688,7 @@ const AnalyticsBentoGrid = () => {
               <h3 className="text-xl font-semibold text-white mb-6">Coverage vs AOV Lift</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <RechartsBar data={coverageData}>
+                  <BarChart data={coverageData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                     <XAxis 
                       dataKey="cohort" 
@@ -609,131 +720,8 @@ const AnalyticsBentoGrid = () => {
                       fill="#1d4ed8" 
                       radius={[4, 4, 0, 0]}
                     />
-                  </RechartsBar>
+                  </BarChart>
                 </ResponsiveContainer>
-              </div>
-            </motion.div>
-          </FadeInWhenVisible>
-        </div>
-
-        {/* Bottom Row Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Strategy Split Pie Chart */}
-          <FadeInWhenVisible delay={0.2}>
-            <motion.div
-              className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6"
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <PieChart className="w-5 h-5 text-cyan-400" />
-                <h3 className="text-xl font-semibold text-white">Strategy Mix</h3>
-              </div>
-              <div className="h-48">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RechartsPie>
-                    <Pie
-                      data={strategySplit}
-                      dataKey="value"
-                      nameKey="name"
-                      innerRadius={40}
-                      outerRadius={70}
-                      paddingAngle={2}
-                      label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                    >
-                      {strategySplit.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip 
-                      contentStyle={{ 
-                        background: 'rgba(15, 23, 42, 0.9)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        borderRadius: '8px',
-                        backdropFilter: 'blur(12px)'
-                      }}
-                    />
-                  </RechartsPie>
-                </ResponsiveContainer>
-              </div>
-            </motion.div>
-          </FadeInWhenVisible>
-
-          {/* User Engagement Area Chart */}
-          <FadeInWhenVisible delay={0.3}>
-            <motion.div
-              className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6"
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h3 className="text-xl font-semibold text-white mb-6">User Engagement</h3>
-              <div className="h-48">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={userEngagementData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                    <XAxis 
-                      dataKey="day" 
-                      stroke="rgba(255,255,255,0.6)"
-                      fontSize={12}
-                    />
-                    <YAxis 
-                      stroke="rgba(255,255,255,0.6)"
-                      fontSize={12}
-                    />
-                    <Tooltip 
-                      contentStyle={{ 
-                        background: 'rgba(15, 23, 42, 0.9)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        borderRadius: '8px',
-                        backdropFilter: 'blur(12px)'
-                      }}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="engagement"
-                      stroke="#22d3ee"
-                      fill="url(#engagementGradient)"
-                      strokeWidth={2}
-                    />
-                    <defs>
-                      <linearGradient id="engagementGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="#22d3ee" stopOpacity={0.1}/>
-                      </linearGradient>
-                    </defs>
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </motion.div>
-          </FadeInWhenVisible>
-
-          {/* Quick Insights */}
-          <FadeInWhenVisible delay={0.4}>
-            <motion.div
-              className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6"
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h3 className="text-xl font-semibold text-white mb-6">Smart Insights</h3>
-              <div className="space-y-4">
-                <div className="p-4 bg-cyan-500/10 rounded-xl border border-cyan-500/20">
-                  <div className="text-sm font-medium text-cyan-200 mb-2">📈 Performance Tip</div>
-                  <div className="text-xs text-blue-200">
-                    Personalization increases CTR — prioritize returning users for personalized picks
-                  </div>
-                </div>
-                <div className="p-4 bg-blue-500/10 rounded-xl border border-blue-500/20">
-                  <div className="text-sm font-medium text-blue-200 mb-2">🎯 Quick Win</div>
-                  <div className="text-xs text-blue-200">
-                    Enable "Similar items" on PDP & search results for immediate impact
-                  </div>
-                </div>
-                <div className="p-4 bg-indigo-500/10 rounded-xl border border-indigo-500/20">
-                  <div className="text-sm font-medium text-indigo-200 mb-2">💡 Strategy</div>
-                  <div className="text-xs text-blue-200">
-                    Visual similarity drives discoverability for new SKUs — use on social & search
-                  </div>
-                </div>
               </div>
             </motion.div>
           </FadeInWhenVisible>
@@ -743,572 +731,338 @@ const AnalyticsBentoGrid = () => {
   );
 };
 
-// ❓ Enhanced FAQ Section with Accordions
-const FAQSection = () => {
-  const [openItems, setOpenItems] = useState<number[]>([]);
-
-  const toggleItem = (index: number) => {
-    setOpenItems(prev => 
-      prev.includes(index) 
-        ? prev.filter(item => item !== index)
-        : [...prev, index]
-    );
-  };
-
-  const faqItems = [
-    {
-      question: "How accurate is your visual search technology?",
-      answer: "Our AI achieves 99.2% accuracy in product recognition and similarity matching, powered by advanced deep learning models trained on millions of product images."
-    },
-    {
-      question: "What e-commerce platforms do you integrate with?",
-      answer: "We seamlessly integrate with Shopify, WooCommerce, Magento, BigCommerce, and custom platforms through our comprehensive API."
-    },
-    {
-      question: "How long does implementation take?",
-      answer: "Most clients are up and running within 2-4 weeks, depending on catalog size and customization requirements."
-    },
-    {
-      question: "What kind of support do you provide?",
-      answer: "We offer 24/7 premium support, dedicated account management, and comprehensive documentation for all our clients."
-    },
-    {
-      question: "Is my data secure with your platform?",
-      answer: "Yes, we employ enterprise-grade security including SOC 2 compliance, end-to-end encryption, and regular security audits."
-    }
-  ];
-
+// 🛠️ AI Services Grid Component
+const AIServicesGrid = () => {
   return (
-    <section className="py-28 bg-gradient-to-br from-slate-900/80 via-blue-900/80 to-cyan-900/80 relative overflow-hidden backdrop-blur-sm">
-      <div className="absolute inset-0 bg-grid-cyan-500/[0.02] bg-[size:60px_60px]"></div>
+    <section className="py-16 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:60px_60px]"></div>
       <div className="container mx-auto px-6 relative z-10">
         <FadeInWhenVisible>
-          <div className="text-center mb-16">
+          <div className="text-center mb-20">
             <div className="inline-flex items-center gap-3 bg-cyan-500/20 backdrop-blur-sm rounded-full px-6 py-3 mb-6 border border-cyan-400/30">
-              <HelpCircle className="w-5 h-5 text-cyan-400" />
-              <span className="text-sm font-semibold text-cyan-100">FAQ</span>
+              <Cpu className="w-5 h-5 text-cyan-400" />
+              <span className="text-sm font-semibold text-cyan-100">AI-Powered Solutions</span>
             </div>
             <h2 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-cyan-200">
-              Frequently Asked Questions
+              Enterprise-Grade AI Services
             </h2>
-            <p className="text-blue-100 max-w-2xl mx-auto text-xl">
-              Everything you need to know about our AI-powered visual commerce platform
+            <p className="text-blue-100 max-w-3xl mx-auto text-xl">
+              Advanced artificial intelligence solutions designed specifically for ecommerce scale and performance
             </p>
           </div>
         </FadeInWhenVisible>
 
-        <div className="max-w-4xl mx-auto">
-          {faqItems.map((item, index) => (
-            <FadeInWhenVisible key={index} delay={index * 0.1}>
-              <motion.div
-                className="mb-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all duration-300"
-                whileHover={{ y: -2 }}
-              >
-                <button
-                  onClick={() => toggleItem(index)}
-                  className="w-full px-8 py-6 text-left flex items-center justify-between group"
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {aiServices.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <FadeInWhenVisible key={service.name} delay={service.delay}>
+                <motion.div
+                  className="group bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:border-cyan-500/30 transition-all duration-500 hover:scale-105"
+                  whileHover={{ y: -8 }}
                 >
-                  <h3 className="text-xl font-semibold text-white pr-4">{item.question}</h3>
-                  <motion.div
-                    animate={{ rotate: openItems.includes(index) ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="w-8 h-8 bg-cyan-500/20 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500/30"
-                  >
-                    <ChevronDown className="w-5 h-5 text-cyan-400" />
-                  </motion.div>
-                </button>
-                
-                <AnimatePresence>
-                  {openItems.includes(index) && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-8 pb-6">
-                        <p className="text-blue-200 text-lg leading-relaxed">{item.answer}</p>
+                  <div className={`w-14 h-14 bg-gradient-to-r ${service.color || 'from-cyan-500 to-blue-500'} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <Icon className="w-7 h-7 text-white" />
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-white mb-3">{service.name}</h3>
+                  <p className="text-blue-200 text-sm mb-4 leading-relaxed">{service.description}</p>
+                  
+                  <div className="space-y-2 mb-4">
+                    {service.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-sm text-cyan-300">
+                        <CheckCircle className="w-4 h-4" />
+                        {feature}
                       </div>
+                    ))}
+                  </div>
+                  
+                  <div className="p-3 bg-cyan-500/10 rounded-xl border border-cyan-500/20">
+                    <p className="text-cyan-300 text-sm font-semibold">{service.useCase}</p>
+                  </div>
+                </motion.div>
+              </FadeInWhenVisible>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// 💻 Technical Capabilities Section
+const TechnicalCapabilities = () => {
+  return (
+    <section className="py-16 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Left Content */}
+          <div className="space-y-8">
+            <FadeInWhenVisible>
+              <div className="inline-flex items-center gap-3 bg-purple-500/20 backdrop-blur-sm rounded-full px-6 py-3 border border-purple-400/30">
+                <Server className="w-5 h-5 text-purple-400" />
+                <span className="text-sm font-semibold text-purple-100">Enterprise Infrastructure</span>
+              </div>
+              <h2 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200 leading-tight">
+                Built for Scale & Security
+              </h2>
+              <p className="text-blue-100 text-xl leading-relaxed">
+                Robust technical foundation designed to handle enterprise workloads with military-grade security and global performance.
+              </p>
+            </FadeInWhenVisible>
+
+            {/* Capabilities Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {technicalCapabilities.map((capability, index) => {
+                const Icon = capability.icon;
+                return (
+                  <FadeInWhenVisible key={capability.title} delay={index * 0.1}>
+                    <motion.div
+                      className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:border-purple-500/30 transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <Icon className="w-8 h-8 text-purple-400 mb-3" />
+                      <h3 className="text-lg font-semibold text-white mb-2">{capability.title}</h3>
+                      <p className="text-blue-200 text-sm mb-3">{capability.description}</p>
+                      <div className="text-purple-300 text-sm font-semibold">{capability.metrics}</div>
                     </motion.div>
-                  )}
-                </AnimatePresence>
+                  </FadeInWhenVisible>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right Side - Architecture Image */}
+          <FadeInWhenVisible delay={0.2}>
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-3xl blur-xl opacity-50"></div>
+              <div className="relative bg-white/10 backdrop-blur-md border border-purple-500/30 rounded-2xl p-8 transform hover:scale-105 transition-all duration-500">
+                <img 
+                  src={apiArchitecture} 
+                  alt="BigOLens API Architecture" 
+                  className="w-full h-auto rounded-xl shadow-2xl"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              </div>
+            </div>
+          </FadeInWhenVisible>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// 🏢 Enterprise Features Section
+const EnterpriseFeatures = () => {
+  return (
+    <section className="py-16 bg-gradient-to-br from-slate-900 via-cyan-900 to-slate-900 relative overflow-hidden">
+      <div className="container mx-auto px-6 relative z-10">
+        <FadeInWhenVisible>
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-3 bg-cyan-500/20 backdrop-blur-sm rounded-full px-6 py-3 mb-6 border border-cyan-400/30">
+              <Scale className="w-5 h-5 text-cyan-400" />
+              <span className="text-sm font-semibold text-cyan-100">For Large Enterprises</span>
+            </div>
+            <h2 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-cyan-200">
+              Enterprise-Ready Features
+            </h2>
+            <p className="text-blue-100 max-w-3xl mx-auto text-xl">
+              Comprehensive solutions designed for Fortune 500 companies and high-growth ecommerce platforms
+            </p>
+          </div>
+        </FadeInWhenVisible>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          {enterpriseFeatures.map((feature, index) => {
+            const Icon = feature.icon;
+            return (
+              <FadeInWhenVisible key={feature.title} delay={index * 0.1}>
+                <motion.div
+                  className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-8 hover:border-cyan-500/30 transition-all duration-300 group"
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="flex items-start gap-6">
+                    <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                      <Icon className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-white mb-3">{feature.title}</h3>
+                      <p className="text-blue-200 text-lg leading-relaxed">{feature.description}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </FadeInWhenVisible>
+            );
+          })}
+        </div>
+
+        {/* Integration Demo */}
+        <FadeInWhenVisible delay={0.3}>
+          <div className="bg-white/10 backdrop-blur-md border border-cyan-500/30 rounded-3xl p-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="text-3xl font-bold text-white mb-4">Seamless Integration</h3>
+                <p className="text-blue-200 text-lg mb-6">
+                  Integrate with your existing tech stack in weeks, not months. Our comprehensive APIs and SDKs make implementation straightforward.
+                </p>
+                <div className="space-y-3">
+                  {['RESTful APIs', 'Webhook Support', 'Real-time Streaming', 'Comprehensive Documentation'].map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-3 text-cyan-300">
+                      <CheckCircle className="w-5 h-5" />
+                      <span className="text-lg">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="relative">
+                <img 
+                  src={enterpriseIntegration} 
+                  alt="Enterprise Integration" 
+                  className="w-full h-auto rounded-xl"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </FadeInWhenVisible>
+      </div>
+    </section>
+  );
+};
+
+// 📈 Results & Case Studies Section
+const ResultsSection = () => {
+  return (
+    <section className="py-16 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 relative overflow-hidden">
+      <div className="container mx-auto px-6 relative z-10">
+        <FadeInWhenVisible>
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-3 bg-blue-500/20 backdrop-blur-sm rounded-full px-6 py-3 mb-6 border border-blue-400/30">
+              <TrendingUp className="w-5 h-5 text-blue-400" />
+              <span className="text-sm font-semibold text-blue-100">Proven Results</span>
+            </div>
+            <h2 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">
+              Measurable Business Impact
+            </h2>
+            <p className="text-blue-100 max-w-2xl mx-auto text-xl">
+              See how leading ecommerce companies achieve significant ROI with our AI solutions
+            </p>
+          </div>
+        </FadeInWhenVisible>
+
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          {caseStudyMetrics.map((metric, index) => (
+            <FadeInWhenVisible key={metric.label} delay={index * 0.1}>
+              <motion.div
+                className="text-center p-8 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl hover:border-blue-500/30 transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="text-5xl font-bold text-white mb-2">
+                  <CountUp end={metric.value} duration={2.5} suffix={metric.suffix} />
+                </div>
+                <div className="text-blue-200 text-lg">{metric.label}</div>
               </motion.div>
             </FadeInWhenVisible>
           ))}
         </div>
+
+        {/* Case Study Highlights */}
+        <FadeInWhenVisible delay={0.3}>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {[
+              {
+                company: "Global Fashion Retailer",
+                result: "45% AOV Increase",
+                description: "Implemented visual search and personalized recommendations across 50+ countries"
+              },
+              {
+                company: "Home Goods Marketplace",
+                result: "7x Conversion Boost",
+                description: "Deployed AI-powered product tagging and discovery for 2M+ SKUs"
+              },
+              {
+                company: "Electronics E-commerce",
+                result: "40% Fewer Returns",
+                description: "Integrated virtual try-on and size recommendation technology"
+              }
+            ].map((caseStudy, index) => (
+              <motion.div
+                key={caseStudy.company}
+                className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:border-purple-500/30 transition-all duration-300"
+                whileHover={{ y: -5 }}
+              >
+                <div className="text-purple-400 text-sm font-semibold mb-2">{caseStudy.company}</div>
+                <div className="text-2xl font-bold text-white mb-3">{caseStudy.result}</div>
+                <div className="text-blue-200">{caseStudy.description}</div>
+              </motion.div>
+            ))}
+          </div>
+        </FadeInWhenVisible>
       </div>
     </section>
   );
 };
 
-// 📧 Enhanced Newsletter Section
-const NewsletterSection = () => {
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setEmail("");
-  };
-
+// 🚀 CTA Section
+const CTASection = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-cyan-900/30 to-blue-900/30 relative overflow-hidden backdrop-blur-sm">
-      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:60px_60px]"></div>
+    <section className="py-16 bg-gradient-to-br from-cyan-900 via-blue-900 to-purple-900 relative overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <FadeInWhenVisible>
             <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-6 border border-white/20">
-              <Mail className="w-5 h-5 text-cyan-400" />
-              <span className="text-sm font-semibold text-cyan-100">Stay Updated</span>
+              <Rocket className="w-5 h-5 text-cyan-400" />
+              <span className="text-sm font-semibold text-cyan-100">Start Your AI Journey</span>
             </div>
             
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-cyan-200">
-              Join Our AI Revolution
+            <h2 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-cyan-200">
+              Ready to Transform Your E-commerce?
             </h2>
             
             <p className="text-blue-100 text-xl mb-8 max-w-2xl mx-auto">
-              Get the latest insights on visual commerce, AI trends, and exclusive platform updates delivered to your inbox.
+              Join 500+ leading companies using BigOLens AI to drive growth, reduce costs, and create exceptional customer experiences.
             </p>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible delay={0.2}>
-            <motion.form
-              onSubmit={handleSubmit}
-              className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
-              whileInView={{ y: 0, opacity: 1 }}
-            >
-              <div className="flex-1">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 transition-all duration-300"
-                  required
-                  disabled={isSubmitting || isSubmitted}
-                />
-              </div>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Link to="/demo">
+                <Button size="lg" className="px-12 py-6 text-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white border-0 rounded-2xl transition-all duration-300 group">
+                  <Zap className="mr-3 w-6 h-6" />
+                  Request Technical Demo
+                  <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
+                </Button>
+              </Link>
               
-              <motion.button
-                type="submit"
-                disabled={isSubmitting || isSubmitted}
-                className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold rounded-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                whileHover={{ scale: isSubmitting || isSubmitted ? 1 : 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {isSubmitting ? (
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mx-auto"
-                  />
-                ) : isSubmitted ? (
-                  "Subscribed! 🎉"
-                ) : (
-                  "Subscribe Now"
-                )}
-              </motion.button>
-            </motion.form>
+              <Link to="/contact">
+                <Button size="lg" variant="outline" className="px-12 py-6 text-lg border-2 border-cyan-400/50 bg-cyan-500/10 hover:bg-cyan-500/20 text-white rounded-2xl transition-all duration-300">
+                  <Calendar className="mr-3 w-6 h-6" />
+                  Speak with Sales
+                </Button>
+              </Link>
+            </div>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible delay={0.4}>
-            <p className="text-blue-300 text-sm mt-4">
-              Join 15,000+ e-commerce professionals. No spam, unsubscribe anytime.
-            </p>
-          </FadeInWhenVisible>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// 🎠 Enhanced KPI Carousel Component
-const KPICarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-
-  const kpiData = [
-    {
-      value: 45,
-      suffix: "%",
-      label: "Uplift in Avg. Order Value",
-      description: "Customers discover more relevant products through visual search leading to higher value purchases",
-      image: carouselImg1,
-      color: "from-cyan-400 to-blue-500",
-      bgColor: "bg-gradient-to-br from-cyan-500/20 to-blue-500/20",
-      delay: 0
-    },
-    {
-      value: 7,
-      suffix: "x",
-      label: "Higher Conversion Rate",
-      description: "Visual recommendations drive immediate purchase decisions and reduce cart abandonment",
-      image: carouselImg2,
-      color: "from-blue-400 to-cyan-500",
-      bgColor: "bg-gradient-to-br from-blue-500/20 to-cyan-500/20",
-      delay: 1
-    },
-    {
-      value: 92,
-      suffix: "%",
-      label: "Visual Match Accuracy",
-      description: "Industry-leading AI precision for product recognition and similarity matching",
-      image: carouselImg3,
-      color: "from-cyan-400 to-blue-600",
-      bgColor: "bg-gradient-to-br from-cyan-500/20 to-blue-600/20",
-      delay: 2
-    },
-    {
-      value: 3.2,
-      suffix: "x",
-      label: "Faster Discovery",
-      description: "Reduce search time with instant visual results and intelligent recommendations",
-      image: carouselImg4,
-      color: "from-blue-500 to-cyan-400",
-      bgColor: "bg-gradient-to-br from-blue-500/20 to-cyan-400/20",
-      delay: 3
-    },
-    {
-      value: 68,
-      suffix: "%",
-      label: "Customer Engagement",
-      description: "Increase in time spent exploring visual recommendations and personalized content",
-      image: carouselImg5,
-      color: "from-cyan-500 to-blue-400",
-      bgColor: "bg-gradient-to-br from-cyan-500/20 to-blue-400/20",
-      delay: 4
-    }
-  ];
-
-  // Auto-rotate carousel
-  useEffect(() => {
-    if (!isPlaying) return;
-    
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % kpiData.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [isPlaying, kpiData.length]);
-
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % kpiData.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + kpiData.length) % kpiData.length);
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  return (
-    <div className="w-full max-w-6xl mx-auto">
-      {/* Main Carousel Display */}
-      <div className="relative h-96 mb-12">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, scale: 0.8, x: 100 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            exit={{ opacity: 0, scale: 1.2, x: -100 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            className={`absolute inset-0 ${kpiData[currentIndex].bgColor} backdrop-blur-md rounded-3xl border border-white/10 p-8 flex flex-col lg:flex-row items-center justify-between overflow-hidden`}
-          >
-            {/* Left Content */}
-            <div className="flex-1 text-center lg:text-left space-y-6 z-10">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20"
-              >
-                <TrendingUp className="w-4 h-4 text-white" />
-                <span className="text-sm font-medium text-white">Proven Result</span>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="space-y-4"
-              >
-                <div className="text-7xl lg:text-8xl font-bold text-white">
-                  <CountUp 
-                    end={kpiData[currentIndex].value} 
-                    duration={2.5} 
-                    suffix={kpiData[currentIndex].suffix}
-                  />
+            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              {[
+                { value: "2-4", label: "Weeks to Implement" },
+                { value: "99.9%", label: "Uptime SLA" },
+                { value: "24/7", label: "Enterprise Support" },
+                { value: "SOC 2", label: "Compliant" }
+              ].map((stat, index) => (
+                <div key={stat.label}>
+                  <div className="text-2xl font-bold text-white">{stat.value}</div>
+                  <div className="text-blue-300 text-sm">{stat.label}</div>
                 </div>
-                <h3 className="text-2xl lg:text-3xl font-bold text-white">
-                  {kpiData[currentIndex].label}
-                </h3>
-                <p className="text-blue-100 text-lg max-w-md">
-                  {kpiData[currentIndex].description}
-                </p>
-              </motion.div>
-            </div>
-
-            {/* Right Image */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0, rotate: -10 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
-              className="relative w-64 h-64 rounded-2xl overflow-hidden shadow-2xl"
-            >
-              <img 
-                src={kpiData[currentIndex].image} 
-                alt={kpiData[currentIndex].label}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-              {/* Shine Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shine"></div>
-            </motion.div>
-
-            {/* Floating Elements */}
-            <div className="absolute top-4 right-4 w-6 h-6 bg-white/20 rounded-full animate-pulse"></div>
-            <div className="absolute bottom-4 left-4 w-4 h-4 bg-white/30 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Navigation Arrows */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center hover:bg-white/20 transition-all duration-300 group z-20"
-        >
-          <ChevronLeft className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center hover:bg-white/20 transition-all duration-300 group z-20"
-        >
-          <ChevronRight className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
-        </button>
-
-        {/* Play/Pause Button */}
-        <button
-          onClick={() => setIsPlaying(!isPlaying)}
-          className="absolute top-4 left-4 w-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center hover:bg-white/20 transition-all duration-300 z-20"
-        >
-          {isPlaying ? (
-            <Pause className="w-4 h-4 text-white" />
-          ) : (
-            <Play className="w-4 h-4 text-white" />
-          )}
-        </button>
-      </div>
-
-      {/* Indicator Dots */}
-      <div className="flex justify-center items-center gap-3 mb-8">
-        {kpiData.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentIndex 
-                ? 'bg-cyan-400 w-8' 
-                : 'bg-white/30 hover:bg-white/50'
-            }`}
-          />
-        ))}
-      </div>
-
-      {/* Mini KPIs Grid with Images */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        {kpiData.map((kpi, index) => (
-          <motion.button
-            key={index}
-            onClick={() => goToSlide(index)}
-            whileHover={{ scale: 1.05, y: -5 }}
-            whileTap={{ scale: 0.95 }}
-            className={`p-3 rounded-2xl backdrop-blur-sm border transition-all duration-300 overflow-hidden group ${
-              index === currentIndex
-                ? 'bg-white/20 border-cyan-400/50 shadow-lg shadow-cyan-400/20'
-                : 'bg-white/10 border-white/10 hover:bg-white/10'
-            }`}
-          >
-            <div className="text-center space-y-2">
-              <div className="w-16 h-16 mx-auto rounded-xl overflow-hidden shadow-lg">
-                <img 
-                  src={kpi.image} 
-                  alt={kpi.label}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-              </div>
-              <div className="text-lg font-bold text-white">
-                {kpi.value}{kpi.suffix}
-              </div>
-              <div className="text-xs text-blue-200 leading-tight">
-                {kpi.label.split(' ').slice(0, 2).join(' ')}
-              </div>
-            </div>
-          </motion.button>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-// 📞 Enhanced Reach Us Section
-const ReachUsSection = () => {
-  return (
-    <section id="contact" className="py-28 bg-gradient-to-br from-slate-900/80 via-blue-900/80 to-cyan-900/80 relative overflow-hidden backdrop-blur-sm">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-20 -left-20 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left Content */}
-          <FadeInWhenVisible>
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-3 bg-cyan-500/20 backdrop-blur-sm rounded-full px-6 py-3">
-                <Calendar className="w-5 h-5 text-cyan-400" />
-                <span className="text-sm font-semibold text-cyan-100">Get Started Today</span>
-              </div>
-              
-              <h2 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-cyan-200 leading-tight">
-                Ready to Transform Your Business?
-              </h2>
-              
-              <p className="text-xl text-blue-100 leading-relaxed">
-                Schedule a personalized demo and discover how our AI-powered visual commerce platform can drive growth for your business.
-              </p>
-
-              {/* Contact Methods */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 p-6 bg-white/10 backdrop-blur-sm border border-blue-500/20 rounded-2xl hover:border-cyan-500/40 transition-all duration-300 group">
-                  <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Mail className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-white mb-1">Email Us</h3>
-                    <p className="text-blue-200">hello@visionai.com</p>
-                    <p className="text-sm text-blue-300">Get a response within 2 hours</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 p-6 bg-white/10 backdrop-blur-sm border border-blue-500/20 rounded-2xl hover:border-cyan-500/40 transition-all duration-300 group">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Phone className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-white mb-1">Call Us</h3>
-                    <p className="text-blue-200">+1 (555) 123-4567</p>
-                    <p className="text-sm text-blue-300">Mon-Fri, 9AM-6PM EST</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 p-6 bg-white/10 backdrop-blur-sm border border-blue-500/20 rounded-2xl hover:border-cyan-500/40 transition-all duration-300 group">
-                  <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Calendar className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-white mb-1">Book a Demo</h3>
-                    <p className="text-blue-200">30-minute personalized walkthrough</p>
-                    <p className="text-sm text-blue-300">See our platform in action</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Social Media Links */}
-              <div className="flex gap-4 pt-6">
-                {[
-                  { icon: Facebook, color: "hover:bg-blue-600", href: "#" },
-                  { icon: Twitter, color: "hover:bg-cyan-500", href: "#" },
-                  { icon: Instagram, color: "hover:bg-blue-500", href: "#" },
-                  { icon: Linkedin, color: "hover:bg-blue-700", href: "#" },
-                  { icon: Youtube, color: "hover:bg-red-600", href: "#" },
-                ].map((social, index) => (
-                  <motion.a
-                    key={index}
-                    href={social.href}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                    className={`w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl flex items-center justify-center transition-all duration-300 ${social.color} group`}
-                  >
-                    <social.icon className="w-5 h-5 text-blue-200 group-hover:text-white" />
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-          </FadeInWhenVisible>
-
-          {/* Right Side - Contact Form */}
-          <FadeInWhenVisible delay={0.2}>
-            <div className="bg-white/10 backdrop-blur-md border border-cyan-500/30 rounded-3xl p-8 shadow-2xl">
-              <h3 className="text-3xl font-bold text-white mb-2">Schedule Your Demo</h3>
-              <p className="text-blue-200 mb-8">Fill out the form and we'll get back to you within 24 hours</p>
-              
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-blue-200 text-sm font-medium mb-2">First Name</label>
-                    <input 
-                      type="text" 
-                      className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 transition-colors"
-                      placeholder="John"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-blue-200 text-sm font-medium mb-2">Last Name</label>
-                    <input 
-                      type="text" 
-                      className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 transition-colors"
-                      placeholder="Doe"
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-blue-200 text-sm font-medium mb-2">Work Email</label>
-                  <input 
-                    type="email" 
-                    className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 transition-colors"
-                    placeholder="john@company.com"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-blue-200 text-sm font-medium mb-2">Company</label>
-                  <input 
-                    type="text" 
-                      className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 transition-colors"
-                    placeholder="Your Company"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-blue-200 text-sm font-medium mb-2">What challenges are you facing?</label>
-                  <textarea 
-                    rows={4}
-                    className="w-full bg-white/10 border border-blue-500/30 rounded-xl px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 transition-colors resize-none"
-                    placeholder="Tell us about your current e-commerce challenges..."
-                  ></textarea>
-                </div>
-                
-                <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white border-0 rounded-xl py-6 text-lg font-semibold transition-all duration-300 group">
-                  <Calendar className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
-                  Schedule My Demo
-                </Button>
-                
-                <p className="text-center text-blue-300 text-sm">
-                  By submitting, you agree to our Privacy Policy. We'll never spam you.
-                </p>
-              </form>
+              ))}
             </div>
           </FadeInWhenVisible>
         </div>
@@ -1317,167 +1071,340 @@ const ReachUsSection = () => {
   );
 };
 
-const Index = () => {
+const HomePage = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
-      {/* 🧠 HERO SECTION WITH SPIPA CIRCLE BACKGROUND */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Spipa Circle Background */}
-        <div className="absolute inset-0">
-          <SpipaCircle />
+      {/* 🧠 HERO SECTION WITH ADJUSTED GAPS */}
+<section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  {/* Spipa Circle Background */}
+  <div className="absolute inset-0">
+    <SpipaCircle />
+  </div>
+  
+  {/* Dark overlay for better text readability */}
+  <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[1px]"></div>
+
+  <div className="container mx-auto px-6 text-center relative z-10">
+    {/* Increased gap from top to security badge */}
+    <div className="pt-16">
+    
+    {/* Trust Badge */}
+    <motion.div  
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+      className="relative inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 mb-8 border border-cyan-500/30 group z-[9999]"
+    >
+      <Shield className="w-5 h-5 text-cyan-400" />
+      <span className="text-sm font-medium text-cyan-100"> Lead the Future of E-Commerce, Now! </span>
+      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+
+      {/* HOVER BOX WITH IMAGE + JUSTIFIED TEXT */}
+      <div
+        className="
+          invisible opacity-0 group-hover:visible group-hover:opacity-100 
+          transition-all duration-300 
+          absolute left-1/2 top-full -translate-x-1/2 mt-3 
+          w-[350px] md:w-[420px]
+          bg-black text-white text-sm 
+          p-4 rounded-xl shadow-2xl 
+          z-[999999]
+        "
+      >
+        {/* QUOTE */}
+        <p className="text-justify leading-relaxed mb-4">
+          "With bigOlens' advanced AI suite for Product Discovery, Automated Descriptions, Smart Tagging,
+          Personalization, Virtual Try-On, and Intelligent Recommendations for ecommerce brands now automate
+          previously manual workflows with greater speed, accuracy, and scalability."
+        </p>
+
+        {/* IMAGE + NAME SIDE BY SIDE */}
+        <div className="flex items-center gap-3 mt-3">
+          <img 
+            src="/src/assets/founder.jpg" 
+            alt="Dr. Aashi Singh Bhadouria" 
+            className="w-14 h-14 object-cover rounded-full border border-cyan-400 shadow-lg"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+            }}
+          />
+          
+          <div className="flex flex-col justify-center">
+            <p className="font-semibold leading-tight">
+              Dr. Aashi Singh Bhadouria
+            </p>
+            <span className="text-cyan-400 text-xs">Founder & CEO — bigOlens Pvt. Ltd.</span>
+          </div>
         </div>
+      </div>
+    </motion.div>
+
+    {/* Main Heading */}
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+      className="relative"
+    >
+      <motion.h1
+        className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.2 }}
+      >
+        <span className="block bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-cyan-400 to-blue-500 drop-shadow-2xl">
+          Visual Search 2.0
+        </span>
+      </motion.h1>
+      <motion.h3
+        className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 leading-tight"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.2 }}
+      >
+        <span className="block bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-400 drop-shadow-2xl mt-4">
+          Reinventing Commerce that Transforms Shopping Experiences
+        </span>
+      </motion.h3>
+    </motion.div>
+
+    {/* Typewriter Subtitle */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.4, duration: 1 }}
+      className="text-2xl md:text-3xl lg:text-4xl text-blue-100 max-w-4xl mx-auto mb-8 leading-relaxed font-light"
+    >
+      <Typewriter text="Powered by Advanced AI" delay={100} />
+    </motion.div>
+
+    {/* Updated Social Proof - Side by Side Layout */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.6 }}
+      className="flex items-center justify-center gap-5 mb-12"
+    >
+      {/* Trust Statement */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.7 }}
+        className="text-blue-100 text-lg font-medium"
+      >
+        Trusted by 45+ public companies to bootstrap founders, since 2016
+      </motion.div>
+
+      {/* Vertical Divider */}
+      <motion.div
+        initial={{ opacity: 0, scaleY: 0 }}
+        animate={{ opacity: 1, scaleY: 1 }}
+        transition={{ delay: 0.8 }}
+        className="w-px h-12 bg-cyan-500/30"
+      />
+
+      {/* Star Rating */}
+      <motion.div 
+        className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-3 border border-cyan-500/30"
+        initial={{ opacity: 0, x: 15 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.9 }}
+        whileHover={{ scale: 1.05 }}
+      >
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <Star key={star} className="w-4 h-4 text-amber-400 fill-current" />
+          ))}
+        </div>
+        <div className="flex items-baseline gap-2">
+          <span className="text-xl font-bold text-white">4.9/5</span>
+          <span className="text-cyan-300 text-sm">(2.1k reviews)</span>
+        </div>
+      </motion.div>
+    </motion.div>
+
+    {/* CTA Buttons */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.8 }}
+      className="flex justify-center gap-6 flex-wrap"
+    >
+      <Link to="/classify">
+        <Button size="lg" className="text-lg px-12 py-6 shadow-2xl group bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white border-0 rounded-2xl transition-all duration-300 hover:shadow-cyan-500/25 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shine"></div>
+          <Zap className="mr-2 w-2 h-2" />
+          Try Live Demo
+          <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
+        </Button>
+      </Link>
+      <Link to="/contact">
+        <Button size="lg" variant="outline" className="text-lg px-12 py-6 border-2 border-cyan-400/50 bg-cyan-500/10 backdrop-blur-sm group hover:bg-cyan-500/20 rounded-2xl transition-all duration-300 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/5 to-transparent -skew-x-12 animate-shine"></div>
+          <Users className="mr-2 w-2 h-2" />
+          Book Strategy Call
+          <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
+        </Button>
+      </Link>
+    </motion.div>
+
+    {/* Reduced gap between buttons and Trusted by industry leaders */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1.0 }}
+      className="mt-8"
+    >
+      <div className="text-center mb-6">
+        <div className="text-blue-200 text-lg font-medium mb-2">
+          Trusted by industry leaders worldwide..
+        </div>
+      </div>
+      
+      {/* Logo Scroller Container - Clean logos without backgrounds */}
+      <div className="relative overflow-hidden py-2">
+        {/* Gradient Overlays */}
+        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-900 to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-900 to-transparent z-10" />
         
-        {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[1px]"></div>
-
-        <div className="container mx-auto px-6 text-center relative z-10">
-          {/* Trust Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 mb-8 border border-cyan-500/30"
-          >
-            <Shield className="w-5 h-5 text-cyan-400" />
-            <span className="text-sm font-medium text-cyan-100">Enterprise-Grade Security</span>
-            <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-          </motion.div>
-
-          {/* Main Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="relative"
-          >
-            <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
+        {/* First Marquee - Clean logos without backgrounds */}
+        <motion.div
+          className="flex gap-8 items-center"
+          animate={{ x: [0, -1000] }}
+          transition={{ 
+            x: {
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 40,
+              ease: "linear"
+            }
+          }}
+        >
+          {Array.from({ length: 27 }, (_, i) => i + 1).map((number) => (
+            <div
+              key={`logo-${number}-1`}
+              className="flex-shrink-0 transition-all duration-300 hover:scale-110"
             >
-              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-500 drop-shadow-2xl">
-                Visual Search 2.0
-              </span>
-              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-500 drop-shadow-2xl mt-4">
-                Reinventing Commerce
-              </span>
-            </motion.h1>
-
-           
-          </motion.div>
-
-          {/* Typewriter Subtitle */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 1 }}
-            className="text-2xl md:text-3xl lg:text-4xl text-blue-100 max-w-4xl mx-auto mb-8 leading-relaxed font-light"
-          >
-            <Typewriter text="Powered by Advanced AI" delay={80} />
-          </motion.div>
-
-          {/* Updated Social Proof */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="flex items-center justify-center gap-8 mb-12 flex-wrap"
-          >
-            <div className="flex items-center gap-4">
-              <div className="flex -space-x-3">
-                {[1, 2, 3, 4].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full border-2 border-slate-900 shadow-lg"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  />
-                ))}
+              <div className="w-32 h-16 flex items-center justify-center">
+                <img 
+                  src={`/src/assets/CompanyLogo/cp${number}.png`}
+                  alt={`Client ${number}`}
+                  className="h-12 w-auto max-w-[120px] object-contain"
+                  loading="lazy"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    // Show fallback text
+                    const parent = target.parentElement;
+                    if (parent) {
+                      const fallback = document.createElement('div');
+                      fallback.className = 'text-white text-sm font-semibold px-3 py-2 rounded';
+                      fallback.textContent = `Client ${number}`;
+                      parent.appendChild(fallback);
+                    }
+                  }}
+                />
               </div>
-              <span className="text-blue-200 text-lg font-medium">
-                Trusted by 45+ public companies to bootstrap founders, since 2016
-              </span>
             </div>
-            <motion.div 
-              className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20"
-              whileHover={{ scale: 1.05 }}
-            >
-              <Star className="w-5 h-5 text-cyan-400 fill-current" />
-              <span className="text-lg font-semibold text-white">4.9/5</span>
-              <span className="text-blue-200">(2.1k reviews)</span>
-            </motion.div>
-          </motion.div>
+          ))}
+        </motion.div>
+      </div>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="flex justify-center gap-6 flex-wrap"
-          >
-            <Link to="/classify">
-              <Button size="lg" className="text-lg px-12 py-8 shadow-2xl group bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white border-0 rounded-2xl transition-all duration-300 hover:shadow-cyan-500/25 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shine"></div>
-                <Zap className="mr-3 w-6 h-6" />
-                Try Live Demo
-                <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
-              </Button>
-            </Link>
-            <Link to="/contact">
-              <Button size="lg" variant="outline" className="text-lg px-12 py-8 border-2 border-cyan-400/50 bg-cyan-500/10 backdrop-blur-sm group hover:bg-cyan-500/20 rounded-2xl transition-all duration-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/5 to-transparent -skew-x-12 animate-shine"></div>
-                <Users className="mr-3 w-6 h-6" />
-                Book Strategy Call
-                <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
-              </Button>
-            </Link>
-          </motion.div>
-        </div>
+      {/* Second Marquee (Reverse) - Clean logos without backgrounds */}
+      <div className="relative overflow-hidden py-2">
+        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-900 to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-900 to-transparent z-10" />
         
-        {/* Enhanced Floating 3D Elements */}
         <motion.div
-          className="absolute bottom-20 left-10 w-24 h-24 bg-cyan-500/20 rounded-full blur-xl"
-          animate={{
-            y: [0, -20, 0],
-            rotate: [0, 180, 360],
+          className="flex gap-8 items-center"
+          animate={{ x: [-1000, 0] }}
+          transition={{ 
+            x: {
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 35,
+              ease: "linear"
+            }
           }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute top-32 right-20 w-20 h-20 bg-blue-500/30 rounded-full blur-xl"
-          animate={{
-            y: [0, 30, 0],
-            rotate: [0, -180, -360],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1
-          }}
-        />
-        <motion.div
-          className="absolute bottom-40 right-32 w-16 h-16 bg-cyan-500/25 rounded-full blur-lg"
-          animate={{
-            y: [0, -15, 0],
-            x: [0, 10, 0],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
-      </section>
+        >
+          {Array.from({ length: 27 }, (_, i) => i + 1).map((number) => (
+            <div
+              key={`logo-${number}-2`}
+              className="flex-shrink-0 transition-all duration-300 hover:scale-110"
+            >
+              <div className="w-32 h-16 flex items-center justify-center">
+                <img 
+                  src={`/src/assets/CompanyLogo/cp${number}.png`}
+                  alt={`Client ${number}`}
+                  className="h-12 w-auto max-w-[120px] object-contain"
+                  loading="lazy"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    // Show fallback text
+                    const parent = target.parentElement;
+                    if (parent) {
+                      const fallback = document.createElement('div');
+                      fallback.className = 'text-white text-sm font-semibold px-3 py-2 rounded';
+                      fallback.textContent = `Partner ${number}`;
+                      parent.appendChild(fallback);
+                    }
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </motion.div>
+    
+    </div>
+  </div>
+  
+  {/* Enhanced Floating 3D Elements */}
+  <motion.div
+    className="absolute bottom-20 left-10 w-24 h-24 bg-cyan-500/20 rounded-full blur-xl"
+    animate={{
+      y: [0, -20, 0],
+      rotate: [0, 180, 360],
+    }}
+    transition={{
+      duration: 8,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }}
+  />
+  <motion.div
+    className="absolute top-32 right-20 w-20 h-20 bg-blue-500/30 rounded-full blur-xl"
+    animate={{
+      y: [0, 30, 0],
+      rotate: [0, -180, -360],
+    }}
+    transition={{
+      duration: 6,
+      repeat: Infinity,
+      ease: "easeInOut",
+      delay: 1
+    }}
+  />
+  <motion.div
+    className="absolute bottom-40 right-32 w-16 h-16 bg-cyan-500/25 rounded-full blur-lg"
+    animate={{
+      y: [0, -15, 0],
+      x: [0, 10, 0],
+    }}
+    transition={{
+      duration: 5,
+      repeat: Infinity,
+      ease: "easeInOut",
+      delay: 2
+    }}
+  />
+</section>
 
       {/* 🎯 ENHANCED KPI CAROUSEL SECTION */}
-      <section id="results" className="py-28 bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-cyan-900/40 relative overflow-hidden backdrop-blur-sm">
+      <section id="results" className="py-16 bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-cyan-900/40 relative overflow-hidden backdrop-blur-sm">
         <div className="absolute inset-0 bg-grid-cyan-500/[0.02] bg-[size:60px_60px]"></div>
         <div className="container mx-auto px-6 relative z-10">
           <FadeInWhenVisible>
@@ -1499,104 +1426,23 @@ const Index = () => {
         </div>
       </section>
 
-      {/* 📊 NEW ANALYTICS BENTO GRID SECTION */}
+      {/* 📊 ANALYTICS BENTO GRID SECTION */}
       <AnalyticsBentoGrid />
 
-      {/* 🚀 FEATURE SHOWCASE SECTION */}
-      <section id="features" className="py-28 bg-gradient-to-br from-slate-900/80 to-blue-900/80 relative overflow-hidden backdrop-blur-sm">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left Content */}
-            <div className="space-y-8">
-              <FadeInWhenVisible>
-                <div className="inline-flex items-center gap-3 bg-cyan-500/20 backdrop-blur-sm rounded-full px-6 py-3 border border-cyan-400/30">
-                  <Rocket className="w-5 h-5 text-cyan-400" />
-                  <span className="text-sm font-semibold text-cyan-100">Next Generation AI</span>
-                </div>
-                <h2 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-cyan-200 leading-tight">
-                  See Our AI in Action
-                </h2>
-                <p className="text-xl text-blue-100 leading-relaxed">
-                  Experience the power of real-time visual recognition and intelligent product discovery that transforms how customers shop online.
-                </p>
-              </FadeInWhenVisible>
+      {/* 🛠️ AI SERVICES GRID */}
+      <AIServicesGrid />
 
-              {/* Feature List */}
-              <div className="space-y-6">
-                {[
-                  { icon: Search, title: "Real-time Visual Search", desc: "Instantly find products using any image with 99.2% accuracy" },
-                  { icon: Sparkles, title: "Smart Recommendations", desc: "Personalized suggestions based on visual preferences and behavior" },
-                  { icon: Cpu, title: "AI-Powered Insights", desc: "Deep learning algorithms that understand style, context, and trends" },
-                ].map((feature, index) => (
-                  <motion.div
-                    key={feature.title}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.2 }}
-                    className="flex items-start gap-4 p-6 bg-white/10 backdrop-blur-sm border border-blue-500/20 rounded-2xl hover:border-cyan-500/40 transition-all duration-300 group"
-                  >
-                    <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                      <feature.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                      <p className="text-blue-200">{feature.desc}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+      {/* 💻 TECHNICAL CAPABILITIES */}
+      <TechnicalCapabilities />
 
-              <div className="flex gap-4 pt-6">
-                <Link to="/classify">
-                  <Button className="px-8 py-6 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white border-0 rounded-xl transition-all duration-300 group">
-                    <Zap className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
-                    Try Feature Demo
-                  </Button>
-                </Link>
-                <Link to="/contact">
-                  <Button variant="outline" className="px-8 py-6 border-2 border-cyan-400/50 bg-cyan-500/10 hover:bg-cyan-500/20 text-white rounded-xl">
-                    Learn More
-                  </Button>
-                </Link>
-              </div>
-            </div>
+      {/* 🏢 ENTERPRISE FEATURES */}
+      <EnterpriseFeatures />
 
-            {/* Right Side Image */}
-            <FadeInWhenVisible delay={0.2}>
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-3xl blur-xl opacity-50"></div>
-                <div className="relative bg-white/10 backdrop-blur-md border border-cyan-500/30 rounded-2xl p-8 transform hover:scale-105 transition-all duration-500">
-                  <img 
-                    src={featureShowcase} 
-                    alt="AI Visual Commerce Platform Interface" 
-                    className="w-full h-auto rounded-xl shadow-2xl"
-                  />
-                  {/* Floating Elements around Image */}
-                  <div className="absolute -top-4 -right-4 w-8 h-8 bg-cyan-500 rounded-full blur-sm animate-pulse"></div>
-                  <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-blue-500 rounded-full blur-sm animate-pulse" style={{ animationDelay: '1s' }}></div>
-                </div>
-                
-                {/* Stats Overlay */}
-                <div className="absolute -bottom-6 -right-6 bg-gradient-to-r from-cyan-600 to-blue-700 rounded-2xl p-6 shadow-2xl">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-white">99.2%</div>
-                    <div className="text-cyan-100 text-sm">Accuracy Rate</div>
-                  </div>
-                </div>
-              </div>
-            </FadeInWhenVisible>
-          </div>
-        </div>
-      </section>
+      {/* 📈 RESULTS & CASE STUDIES */}
+      <ResultsSection />
 
-      {/* ❓ NEW FAQ SECTION */}
-      <FAQSection />
-
-      {/* 📧 NEW NEWSLETTER SECTION */}
-      <NewsletterSection />
-
-      {/* 📞 ENHANCED REACH US & BOOK DEMO SECTION */}
-      <ReachUsSection />
+      {/* 🚀 CTA SECTION */}
+      <CTASection />
 
       {/* 🆙 BACK TO TOP BUTTON */}
       <BackToTop />
@@ -1606,4 +1452,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default HomePage;

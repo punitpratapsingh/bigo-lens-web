@@ -155,24 +155,29 @@ export default function Login() {
 
                     {/* Submit Button */}
                     <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      type="submit"
-                      disabled={isLoading}
-                      className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 disabled:from-slate-600 disabled:to-slate-700 text-white border-0 rounded-xl py-4 text-lg font-semibold transition-all duration-300 shadow-lg shadow-cyan-500/25 disabled:shadow-none disabled:cursor-not-allowed"
-                    >
-                      {isLoading ? (
-                        <div className="flex items-center justify-center">
-                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                          Signing In...
-                        </div>
-                      ) : (
-                        <div className="flex items-center justify-center">
-                          Sign In
-                          <ArrowRight className="w-5 h-5 ml-2" />
-                        </div>
-                      )}
-                    </motion.button>
+  whileHover={{ scale: 1.02 }}
+  whileTap={{ scale: 0.98 }}
+  type="button"
+  disabled={isLoading}
+  onClick={() => {
+    window.location.href = "https://bigo-lens-console.lovable.app/dashboard";
+  }}
+  className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 disabled:from-slate-600 disabled:to-slate-700 text-white border-0 rounded-xl py-4 text-lg font-semibold transition-all duration-300 shadow-lg shadow-cyan-500/25 disabled:shadow-none disabled:cursor-not-allowed"
+>
+  {isLoading ? (
+    <div className="flex items-center justify-center">
+      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+      Signing In...
+    </div>
+  ) : (
+    <div className="flex items-center justify-center">
+      Sign In
+      <ArrowRight className="w-5 h-5 ml-2" />
+    </div>
+  )}
+</motion.button>
+
+                      
 
                     {/* Divider */}
                     <div className="relative flex items-center py-4">
@@ -186,7 +191,7 @@ export default function Login() {
                       <p className="text-blue-200">
                         Don't have an account?{" "}
                         <Link 
-                          to="/signup" 
+                          to="/signUp" 
                           className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors"
                         >
                           Sign up now

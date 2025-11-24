@@ -13,8 +13,50 @@ import { Card } from "@/components/ui/card";
 // 🖼️ Asset imports
 import demoImage from "@/assets/demo.png";
 
+// Email sending interface matching your API
+interface EmailData {
+  to: string;
+  subject: string;
+  message: string;
+  companyName: string;
+  contactPerson: string;
+  meetingDate: string;
+  meetingTime: string;
+}
+
+interface FormData {
+  firstName: string;
+  lastName: string;
+  company: string;
+  email: string;
+  phone: string;
+  companySize: string;
+  industry: string;
+  message: string;
+  demoDate: string;
+  demoTime: string;
+}
+
+interface ApiResponse {
+  success: boolean;
+  savedDemo: {
+    to: string;
+    subject: string;
+    message: string;
+    companyName: string;
+    contactPerson: string;
+    meetingDate: string;
+    meetingTime: string;
+    _id: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  };
+  message: string;
+}
+
 export default function RequestDemo() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
     company: "",
@@ -27,6 +69,8 @@ export default function RequestDemo() {
     demoTime: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -43,11 +87,112 @@ export default function RequestDemo() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Function to send demo schedule via API
+  const sendDemoSchedule = async (emailData: EmailData): Promise<ApiResponse> => {
+    try {
+      console.log("📤 Sending demo schedule request:", emailData);
+      
+      const response = await fetch('http://localhost:5000/api/demo/schdule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData),
+      });
+
+      console.log("📨 API response status:", response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("❌ API error response:", errorText);
+        throw new Error(`Failed to schedule demo: ${response.status} - ${errorText}`);
+      }
+
+      const result: ApiResponse = await response.json();
+      console.log("✅ Demo scheduled successfully:", result);
+      
+      return result;
+    } catch (error) {
+      console.error('❌ Demo scheduling error:', error);
+      throw error;
+    }
+  };
+
+  // Generate email data from form data
+  const generateEmailData = (formData: FormData): EmailData => {
+    return {
+      to: formData.email,
+      subject: `Demo Scheduled - BigOLens AI Platform`,
+      message: `Dear ${formData.firstName} ${formData.lastName},
+
+Thank you for scheduling a demo of the BigOLens AI Platform! We're excited to show you how our AI-powered solutions can transform your e-commerce experience.
+
+📅 Demo Details:
+- Date: ${formData.demoDate ? new Date(formData.demoDate).toLocaleDateString('en-US', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  }) : 'To be confirmed'}
+- Time: ${formData.demoTime || 'To be confirmed'}
+- Duration: 30-45 minutes
+- Meeting Type: Google Meet
+- Meeting Link: We will send you the Google Meet link 24 hours before the scheduled time
+
+🏢 Your Information:
+- Company: ${formData.company}
+- Industry: ${formData.industry || 'Not specified'}
+- Company Size: ${formData.companySize || 'Not specified'}
+
+🎯 What to Expect:
+- Live platform walkthrough
+- Real-time visual search demonstration
+- Personalized ROI analysis for your business
+- Integration and implementation roadmap
+- Q&A session with our AI experts
+
+💡 Preparation:
+Please think about any specific challenges or use cases you'd like us to address during the demo. This will help us tailor the session to your needs.
+
+If you need to reschedule or have any questions before our meeting, please don't hesitate to contact us.
+
+We look forward to connecting with you!
+
+Best regards,
+The BigOLens Team`,
+      companyName: formData.company,
+      contactPerson: `${formData.firstName} ${formData.lastName}`,
+      meetingDate: formData.demoDate,
+      meetingTime: formData.demoTime
+    };
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Simulate backend submission
-    setTimeout(() => setSubmitted(true), 1000);
+    setLoading(true);
+    setError(null);
+
+    try {
+      console.log("Form submitted:", formData);
+      
+      // Generate email data from form
+      const emailData = generateEmailData(formData);
+      
+      // Send to API
+      const result = await sendDemoSchedule(emailData);
+
+      if (!result.success) {
+        throw new Error(result.message || 'Failed to schedule demo');
+      }
+
+      setSubmitted(true);
+      
+    } catch (err) {
+      console.error('Submission error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to submit form. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Available time slots
@@ -238,6 +383,16 @@ export default function RequestDemo() {
                       <h2 className="text-3xl font-bold text-white mb-2">Schedule Your Demo</h2>
                       <p className="text-blue-200 mb-8">Choose your preferred time slot and we'll send you a Google Meet link</p>
 
+                      {error && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-xl text-red-200"
+                        >
+                          {error}
+                        </motion.div>
+                      )}
+
                       <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
@@ -419,16 +574,25 @@ export default function RequestDemo() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           type="submit"
-                          disabled={!formData.demoDate || !formData.demoTime}
+                          disabled={!formData.demoDate || !formData.demoTime || loading}
                           className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed text-white border-0 rounded-xl py-4 text-lg font-semibold transition-all duration-300 shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/40 disabled:shadow-gray-500/25"
                         >
-                          <Calendar className="w-5 h-5 inline mr-2" />
-                          Schedule Demo
-                          <ArrowRight className="w-4 h-4 inline ml-2" />
+                          {loading ? (
+                            <>
+                              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                              Scheduling Demo...
+                            </>
+                          ) : (
+                            <>
+                              <Calendar className="w-5 h-5 inline mr-2" />
+                              Schedule Demo
+                              <ArrowRight className="w-4 h-4 inline ml-2" />
+                            </>
+                          )}
                         </motion.button>
 
                         <p className="text-center text-blue-300 text-sm">
-                          We'll send you a Google Meet link immediately after booking
+                          We'll send confirmation emails to you and our team immediately after booking
                         </p>
                       </form>
                     </div>
@@ -454,7 +618,7 @@ export default function RequestDemo() {
                     </motion.div>
                     <h2 className="text-4xl font-bold text-white mb-4">Demo Scheduled Successfully!</h2>
                     <p className="text-blue-100 text-lg mb-8 leading-relaxed">
-                      Thank you for booking a demo with BigOLens. We've sent a confirmation email with your Google Meet details.
+                      Thank you for booking a demo with BigOLens. We've sent a confirmation email with all the details.
                     </p>
                     
                     {formData.demoDate && formData.demoTime && (
@@ -485,7 +649,7 @@ export default function RequestDemo() {
                     <div className="space-y-4">
                       <div className="flex items-center justify-center gap-2 text-cyan-100">
                         <Video className="w-4 h-4 drop-shadow-sm" />
-                        <span>Check your email for Google Meet link</span>
+                        <span>Check your email for Google Meet link (sent 24 hours before)</span>
                       </div>
                       <div className="flex items-center justify-center gap-2 text-cyan-100">
                         <Clock className="w-4 h-4 drop-shadow-sm" />
@@ -493,7 +657,7 @@ export default function RequestDemo() {
                       </div>
                       <div className="flex items-center justify-center gap-2 text-cyan-100">
                         <Users className="w-4 h-4 drop-shadow-sm" />
-                        <span>Prepare any specific questions for our experts</span>
+                        <span>Our team has been notified and is preparing for our session</span>
                       </div>
                     </div>
                   </div>
@@ -594,7 +758,7 @@ export default function RequestDemo() {
                     <Rocket className="w-5 h-5 text-cyan-400 drop-shadow-sm" />
                     Demo Highlights
                   </h4>
-                  <ul className="space-y-3 text-blue-450">
+                  <ul className="space-y-3 text-blue-500">
                     {[
                       "Live platform walkthrough",
                       "Real-time visual search demo", 
