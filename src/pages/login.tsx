@@ -9,7 +9,9 @@ import {
   Zap,
   Shield,
   CheckCircle,
-  Star
+  Star,
+  Building,
+  UserCog
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
@@ -21,11 +23,15 @@ import { Card } from "@/components/ui/card";
 import loginImage from "/src/assets/login.png";
 import backgroundPattern from "/src/assets/case1.png";
 
+type LoginType = 'admin' | 'client';
+
 export default function Login() {
+  const [loginType, setLoginType] = useState<LoginType>('client');
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    rememberMe: false
+    rememberMe: false,
+    companyCode: "" // For client login
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,8 +51,20 @@ export default function Login() {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
     
+    // Redirect based on login type
+    if (loginType === 'admin') {
+      window.location.href = "https://bigo-insight-hub.lovable.app/";
+    } else {
+      window.location.href = "https://bigo-lens-console.lovable.app/dashboard";
+    }
+    
     setIsLoading(false);
-    // Handle login logic here
+  };
+
+  const getDashboardUrl = () => {
+    return loginType === 'admin' 
+      ? "https://bigo-lens-console.lovable.app/admin-dashboard"
+      : "https://bigo-lens-console.lovable.app/client-dashboard";
   };
 
   return (
@@ -77,11 +95,42 @@ export default function Login() {
                   </motion.div>
 
                   <h1 className="text-4xl lg:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
-                    Welcome Back
+                    {loginType === 'admin' ? 'Admin Portal' : 'Client Dashboard'}
                   </h1>
                   <p className="text-blue-100 text-lg">
-                    Sign in to your BigOLens dashboard and continue transforming your e-commerce with AI.
+                    {loginType === 'admin' 
+                      ? 'Access the BigOLens administration panel to manage clients and platform settings.'
+                      : 'Sign in to your company dashboard and continue transforming your business with AI.'
+                    }
                   </p>
+                </div>
+
+                {/* Login Type Selector */}
+                <div className="flex bg-white/10 backdrop-blur-md rounded-2xl p-2 mb-6 border border-blue-500/30">
+                  <button
+                    type="button"
+                    onClick={() => setLoginType('client')}
+                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl transition-all duration-300 ${
+                      loginType === 'client' 
+                        ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/25' 
+                        : 'text-blue-200 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <Building className="w-4 h-4" />
+                    Client Login
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLoginType('admin')}
+                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl transition-all duration-300 ${
+                      loginType === 'admin' 
+                        ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/25' 
+                        : 'text-blue-200 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <UserCog className="w-4 h-4" />
+                    Admin Login
+                  </button>
                 </div>
 
                 {/* Login Form */}
@@ -90,7 +139,7 @@ export default function Login() {
                     {/* Email Field */}
                     <div>
                       <label className="block text-blue-200 text-sm font-medium mb-2">
-                        Email Address
+                        {loginType === 'admin' ? 'Admin Email' : 'Work Email'}
                       </label>
                       <div className="relative">
                         <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-blue-400" />
@@ -101,10 +150,31 @@ export default function Login() {
                           onChange={handleChange}
                           required
                           className="w-full bg-white/10 border border-blue-500/30 rounded-xl pl-12 pr-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 transition-colors"
-                          placeholder="Enter your work email"
+                          placeholder={loginType === 'admin' ? "admin@bigolens.com" : "Enter your work email"}
                         />
                       </div>
                     </div>
+
+                    {/* Company Code Field - Only for Client Login */}
+                    {loginType === 'client' && (
+                      <div>
+                        <label className="block text-blue-200 text-sm font-medium mb-2">
+                          Company Code
+                        </label>
+                        <div className="relative">
+                          <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-blue-400" />
+                          <input
+                            type="text"
+                            name="companyCode"
+                            value={formData.companyCode}
+                            onChange={handleChange}
+                            required
+                            className="w-full bg-white/10 border border-blue-500/30 rounded-xl pl-12 pr-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-400 transition-colors"
+                            placeholder="Enter your company code"
+                          />
+                        </div>
+                      </div>
+                    )}
 
                     {/* Password Field */}
                     <div>
@@ -155,29 +225,30 @@ export default function Login() {
 
                     {/* Submit Button */}
                     <motion.button
-  whileHover={{ scale: 1.02 }}
-  whileTap={{ scale: 0.98 }}
-  type="button"
-  disabled={isLoading}
-  onClick={() => {
-    window.location.href = "https://bigo-lens-console.lovable.app/dashboard";
-  }}
-  className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 disabled:from-slate-600 disabled:to-slate-700 text-white border-0 rounded-xl py-4 text-lg font-semibold transition-all duration-300 shadow-lg shadow-cyan-500/25 disabled:shadow-none disabled:cursor-not-allowed"
->
-  {isLoading ? (
-    <div className="flex items-center justify-center">
-      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-      Signing In...
-    </div>
-  ) : (
-    <div className="flex items-center justify-center">
-      Sign In
-      <ArrowRight className="w-5 h-5 ml-2" />
-    </div>
-  )}
-</motion.button>
-
-                      
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      type="submit"
+                      disabled={isLoading}
+                      className={`w-full bg-gradient-to-r ${
+                        loginType === 'admin' 
+                          ? 'from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700' 
+                          : 'from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700'
+                      } disabled:from-slate-600 disabled:to-slate-700 text-white border-0 rounded-xl py-4 text-lg font-semibold transition-all duration-300 shadow-lg ${
+                        loginType === 'admin' ? 'shadow-purple-500/25' : 'shadow-cyan-500/25'
+                      } disabled:shadow-none disabled:cursor-not-allowed`}
+                    >
+                      {isLoading ? (
+                        <div className="flex items-center justify-center">
+                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                          Signing In...
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center">
+                          {loginType === 'admin' ? 'Access Admin Panel' : 'Access Client Dashboard'}
+                          <ArrowRight className="w-5 h-5 ml-2" />
+                        </div>
+                      )}
+                    </motion.button>
 
                     {/* Divider */}
                     <div className="relative flex items-center py-4">
@@ -186,18 +257,29 @@ export default function Login() {
                       <div className="flex-grow border-t border-blue-500/30"></div>
                     </div>
 
-                    {/* Sign Up Link */}
-                    <div className="text-center">
-                      <p className="text-blue-200">
-                        Don't have an account?{" "}
-                        <Link 
-                          to="/signUp" 
-                          className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors"
-                        >
-                          Sign up now
-                        </Link>
-                      </p>
-                    </div>
+                    {/* Sign Up Link - Only show for client login */}
+                    {loginType === 'client' && (
+                      <div className="text-center">
+                        <p className="text-blue-200">
+                          Don't have an account?{" "}
+                          <Link 
+                            to="/signUp" 
+                            className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors"
+                          >
+                            Sign up now
+                          </Link>
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Admin Notice */}
+                    {loginType === 'admin' && (
+                      <div className="text-center p-3 bg-purple-500/20 rounded-xl border border-purple-500/30">
+                        <p className="text-purple-200 text-sm">
+                          Admin access requires special permissions. Contact system administrator if needed.
+                        </p>
+                      </div>
+                    )}
                   </form>
                 </Card>
 
@@ -209,7 +291,7 @@ export default function Login() {
                   className="mt-8 grid grid-cols-3 gap-4 text-center"
                 >
                   {[
-                    { value: "500+", label: "Brands" },
+                    { value: "500+", label: "Clients" },
                     { value: "99.9%", label: "Uptime" },
                     { value: "A+", label: "Security" }
                   ].map((stat, index) => (
@@ -249,14 +331,19 @@ export default function Login() {
                   <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-blue-500 rounded-full blur-sm animate-pulse" style={{ animationDelay: '1s' }}></div>
                 </div>
 
-                {/* Features Overlay */}
+                {/* Features Overlay - Changes based on login type */}
                 <div className="absolute -bottom-8 -left-8 bg-slate-900/90 backdrop-blur-md border border-cyan-500/30 rounded-2xl p-6 shadow-2xl max-w-sm">
                   <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                     <Zap className="w-5 h-5 text-cyan-400" />
-                    Platform Features
+                    {loginType === 'admin' ? 'Admin Features' : 'Platform Features'}
                   </h3>
                   <ul className="space-y-3">
-                    {[
+                    {loginType === 'admin' ? [
+                      "Client Management",
+                      "Platform Analytics",
+                      "System Configuration",
+                      "User Permissions"
+                    ] : [
                       "Real-time Visual Search",
                       "AI Auto Tagging",
                       "Personalized Recommendations",
@@ -278,10 +365,16 @@ export default function Login() {
                     ))}
                   </div>
                   <p className="text-blue-100 text-sm italic mb-3">
-                    "BigOLens transformed our e-commerce with AI-powered visual search. Incredible results!"
+                    {loginType === 'admin' 
+                      ? "The admin panel gives us complete control and visibility over all client implementations."
+                      : "BigOLens transformed our e-commerce with AI-powered visual search. Incredible results!"
+                    }
                   </p>
                   <div className="text-cyan-100 text-sm font-semibold">
-                    - Sarah Chen, Fashion Retail Co.
+                    {loginType === 'admin' 
+                      ? "- System Administrator"
+                      : "- Sarah Chen, Fashion Retail Co."
+                    }
                   </div>
                 </div>
               </div>

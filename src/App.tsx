@@ -21,13 +21,33 @@ import TermsOfService from "@/pages/TermsOfService";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import Blogs from "@/pages/blogs";
 import Newsletter from "@/pages/newsletter";
-import Publications from "@/pages/publications";
+import Publications from "./pages/publications";
 import CaseStudies from "@/pages/CaseStudies";
 import ROICalculator from "@/pages/ROI";
-import Events from "./pages/events";
+import EcommerceAudit from "@/pages/EcommerceAudit";
+import CatalogueQualityChecker from "@/pages/CatalogueQualityChecker";
+import ProductDescriptionGrader from "./pages/ProductDescriptionGrader";
+import ImageQualityAnalyser from "./pages/ImageQualityAnalyser";
+import SearchAbandonmentRisk from "./pages/SearchAbandonmentRisk";
+import PersonalizationMaturityScore from "./pages/PersonalizationMaturityScore";
+import ReturnRateReductionCalculator from "./pages/ReturnRateReductionCalculator";
+import TagCompletenessChecker from "./pages/TagCompletenessChecker";
+import ProductRecomUplift from "./pages/ProductRecomUplift";
+import CompetitorAnalysisSnapshotAudit from "./pages/CompetitorAnalysisSnapshotAudit";
+import EcommerceGrowthRoadmap from "./pages/EcommerceGrowthRoadmap";
+import TrendForecastExplorer from "./pages/TrendForecastExplorer";
+import CostSavingCalculator from "./pages/CostSavingCalculator";
+import VirtualTryOnReturnSavingCalculator from "./pages/VTOReturnSavingCalc";
+import DynamicPricingEngine  from "./pages/DynamicPricingEngine";
+import ProductClustering from "./pages/ProductClustering";
+import ProductCompatability from "./pages/ProductCompatability";
+import DemandForecastingDashboard from "./pages/DemandForecastingDashboard";
+
+import Events from "./pages/events"
 import WhyBigOLens from "@/pages/whyBigO";
 import Demo from "@/pages/demo";
 import CustomerReviews from "@/pages/TheWallOfLove";
+import MeetTheTeam from "./pages/MeetTheTeam";
 import Products from "@/pages/Products";
 import Pricing from "@/pages/Pricing";
 import About from "@/pages/About";
@@ -37,6 +57,7 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import Contact from "@/pages/Contact";
 import NotFound from "@/pages/NotFound";
 import ChatBot from "./pages/ChatBot";
+import EcommerceAnalyticsDashboard from "./pages/EcommerceAnalyticsDashboard";
 
 const queryClient = new QueryClient();
 
@@ -68,9 +89,28 @@ const App = () => (
           <Route path="/about/TheWallOfLove" element={<CustomerReviews />} />
           <Route path="/resources/newsletters" element={<Newsletter />} />
           <Route path="/resources/case-studies" element={<CaseStudies />} />
+          <Route path="/about/meet-the-team" element={<MeetTheTeam />} />
           <Route path="/resources/events" element={<Events/>}/>
           <Route path="/resources/publications" element={<Publications />} />
           <Route path="/resources/roi-calculator" element={<ROICalculator />} />
+          <Route path="/resources/ecommerce-audit" element={<EcommerceAudit />} />
+          <Route path="/resources/catalog-quality-checker" element={<CatalogueQualityChecker />} />
+          <Route path="/resources/product-description-grader" element={<ProductDescriptionGrader />} />
+          <Route path="/resources/image-quality-analyser" element={<ImageQualityAnalyser />}/>
+          <Route path="/resources/search-abandonment-risk" element={<SearchAbandonmentRisk />}/>
+          <Route path="/resources/personalization-maturity-score" element={<PersonalizationMaturityScore />}/>
+          <Route path="/resources/return-rate-reduction-calculator" element={<ReturnRateReductionCalculator />}/>
+          <Route path="/resources/tag-completeness-checker" element={<TagCompletenessChecker />} />
+          <Route path="/resources/product-recommendation-uplift-estimator" element={<ProductRecomUplift />} />
+          <Route path="/resources/competitor-analysis-snapshot-audit" element={<CompetitorAnalysisSnapshotAudit />} />
+          <Route path="/resources/ecommerce-growth-roadmap-generator" element={<EcommerceGrowthRoadmap />} />
+          <Route path="/resources/trend-forecast-explorer" element={<TrendForecastExplorer />} />
+          <Route path="/resources/cost-saving-calculator" element={<CostSavingCalculator />} />
+          <Route path="/resources/virtual-try-on-return-saving-calculator" element={<VirtualTryOnReturnSavingCalculator />} />
+          <Route path="/resources/dynamic-pricing-engine-calculator" element={<DynamicPricingEngine />} />
+          <Route path="/resources/product-clustering-calculator" element={<ProductClustering />} />
+          <Route path="/resources/product-compatability-calculator" element={<ProductCompatability />} />
+          <Route path="/resources/demand-forecasting-dashboard" element={<DemandForecastingDashboard />} />
           <Route path="/about/whyBigO" element={<WhyBigOLens />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/login" element={<Login />} />
@@ -79,13 +119,14 @@ const App = () => (
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/resources/ecommerce-analytics-dashboard" element={<EcommerceAnalyticsDashboard />} />
+
 
           {/* CATCH ALL */}
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatBot />
         {/* FOOTER AT BOTTOM */}
-        
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

@@ -55,7 +55,7 @@ export default function Navbar() {
     },
     {
       icon: Palette,
-      name: "Lens Image Describe",
+      name: "Lens APD",
       description: "Automated product description creation",
       color: "text-cyan-400",
       bgColor: "bg-cyan-500/10",
@@ -141,11 +141,147 @@ export default function Navbar() {
     },
     {
       icon: Calculator,
+      name: "Product Clustering Calculator",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/product-clustering-calculator"
+    },
+    {
+      icon: Calculator,
+      name: "Product Compatibility Calculator",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/product-compatability-calculator"
+    },
+     {
+      icon: Calculator,
+      name: "Cost Saving Calculator",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/cost-saving-calculator"
+    },
+    {
+      icon: Calculator,
+      name: "Virtual Try-On Return Saving Calculator",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/virtual-try-on-return-saving-calculator"
+    },
+    {
+      icon: Calculator,
+      name: "Dynamic pricing Engine Calculator",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/dynamic-pricing-engine-calculator"
+    },
+    {
+      icon: Calculator,
+      name: "Competitor Analysis Snapshot Audit Estimator",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/competitor-analysis-snapshot-audit"
+    },
+    {
+      icon: Calculator,
+      name: "Product Recommendation Uplift Estimator",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/product-recommendation-uplift-estimator"
+    },
+    {
+      icon: Calculator,
+      name: "Tag Completeness Checker",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/tag-completeness-checker"
+    },
+    {
+      icon: Calculator,
+      name: "Ecommerce Growth Roadmap Generator",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/ecommerce-growth-roadmap-generator"
+    },
+    {
+      icon: Calculator,
+      name: "Trend Forecast Explorer",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/trend-forecast-explorer"
+    },
+    {
+      icon: Calculator,
+      name: "Return Rate Reduction Calculator",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/return-rate-reduction-calculator"
+    },
+     {
+      icon: Calculator,
+      name: "Personalization Maturity Score",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/personalization-maturity-score"
+    },
+    {
+      icon: Calculator,
       name: "ROI Calculator",
       description: "Measure your potential savings",
       color: "text-blue-400",
       bgColor: "bg-blue-500/10",
       path: "/resources/roi-calculator"
+    },
+    {
+      icon: Calculator,
+      name: "Ecommerce Audit",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/ecommerce-audit"
+    },
+    {
+      icon: Calculator,
+      name: "Catalog Quality Checker",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/catalog-quality-checker "
+    },
+     {
+      icon: Calculator,
+      name: "Product Description Generator",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/product-description-grader "
+    },
+    {
+      icon: Calculator,
+      name: "Product Image Quality Analyser",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/image-quality-analyser "
+    },
+    {
+      icon: Calculator,
+      name: "Search Abandonment Risk Calculator",
+      description: "Measure your ecommerce effectiveness",
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/10",
+      path: "/resources/search-abandonment-risk "
     },
     {
       icon: BookOpen,
@@ -386,6 +522,17 @@ export default function Navbar() {
                 Contact Us
               </Button>
             </Link>
+
+            <div className="hidden lg:flex items-center space-x-4">
+            <Link to="/resources/ecommerce-analytics-dashboard">
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-transparent border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20 hover:text-white font-semibold rounded-full px-4 py-2 transition-all duration-300"
+              >
+                Feature Dashboard
+              </Button>
+            </Link>
             
             <Link to="/login">
               <Button
@@ -543,6 +690,7 @@ export default function Navbar() {
             </div>
           </div>
         )}
+      </div>
       </div>
     </nav>
   );
