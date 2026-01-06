@@ -52,7 +52,6 @@
     "@studio-freight/lenis": "^1.0.42",
     "@tanstack/react-query": "^5.83.0",
     "@types/chart.js": "^2.9.41",
-    "@types/react-grid-heatmap": "^0.1.0",
     "@types/recharts": "^1.8.19",
     "@types/react-chartjs-2": "^2.0.2",
     "chart.js": "^4.5.1",
