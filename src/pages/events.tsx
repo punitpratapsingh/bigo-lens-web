@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Users, Mic, Target, Zap, ArrowRight, Search, Filter, ExternalLink, Sparkles, Heart, Share2 } from "lucide-react";
+import Footer from "@/components/Footer";
 
 type Event = {
   id: string;
@@ -1230,6 +1231,7 @@ export default function EventsPage(): JSX.Element {
           </motion.button>
         </motion.section>
       </main>
+      <Footer />
     </div>
   );
 }
