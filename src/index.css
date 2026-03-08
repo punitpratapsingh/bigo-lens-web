@@ -94,7 +94,15 @@ All colors MUST be HSL.
     --input: 240 3.7% 15.9%;
     --ring: 239 84% 60%;
 
+    /* Luxury Colors */
+    --gold: 45 100% 51%;
+    --rose-gold: 15 100% 62%;
+    --deep-purple: 270 35% 20%;
+    --rich-navy: 220 50% 12%;
+    --platinum: 0 0% 92%;
+
     --shadow-glow: 0 0 40px hsl(239 84% 60% / 0.3);
+    --shadow-gold: 0 0 60px hsl(45 100% 51% / 0.2);
   }
 }
 
