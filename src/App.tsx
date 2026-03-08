@@ -58,6 +58,7 @@ import Contact from "@/pages/Contact";
 import NotFound from "@/pages/NotFound";
 import ChatBot from "./pages/ChatBot";
 import EcommerceAnalyticsDashboard from "./pages/EcommerceAnalyticsDashboard";
+import LensSearch from "./pages/LensSearch";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +77,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/products" element={<Products />} />
           <Route path="/solutions/product-discovery" element={<ProductDiscovery />} />
+          <Route path="/solutions/lens-search" element={<LensSearch />} />
           <Route path="/solutions/auto-tagging" element={<AITagging />} />
           <Route path="/solutions/description-generation" element={<DescriptionGeneration />} />
           <Route path="/solutions/recommendation" element={<ProductRecommendation />} />
