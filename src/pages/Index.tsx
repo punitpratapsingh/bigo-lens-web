@@ -846,7 +846,7 @@ const AIModules = () => {
         { value: "100K/hour", label: "Processing" },
         { value: "200+", label: "Hours Saved" }
       ],
-      image: "/src/assets/solutions/s7.png",
+      image: "/src/assets/ai-solution-lenstag.jpg",
       demoLink: "/demo/lens-tag"
     },
     {
