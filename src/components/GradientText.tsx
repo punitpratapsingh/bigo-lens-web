@@ -23,8 +23,8 @@ const GradientText: React.FC<GradientTextProps> = ({
     if (!textRef.current) return;
 
     const updateGradient = () => {
-      const gradient = document.getElementById(gradientId) as SVGLinearGradientElement;
-      const borderGradient = document.getElementById(borderGradientId) as SVGLinearGradientElement;
+      const gradient = document.getElementById(gradientId) as unknown as SVGLinearGradientElement;
+      const borderGradient = document.getElementById(borderGradientId) as unknown as SVGLinearGradientElement;
       
       if (gradient && borderGradient) {
         const now = Date.now();
