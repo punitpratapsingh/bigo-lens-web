@@ -232,7 +232,7 @@ import {
   Parentheses,
   Asterisk,
   Hash,
-  Infinity,
+  Infinity as InfinityIcon2,
   Pi,
   Omega,
   Sigma,

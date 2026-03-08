@@ -663,7 +663,7 @@ const AdvancedTrendForecastExplorer: React.FC = () => {
   const updateBayesianNetwork = () => {
     // Bayesian network updating
     const bayesianResults = bayesianInference();
-    setBayesianNetwork(bayesianResults.network as BayesianMerchandisingNetwork[]);
+    setBayesianNetwork(bayesianResults.network as unknown as BayesianMerchandisingNetwork[]);
     setEnsembleWeights(bayesianResults.weights);
   };
 
