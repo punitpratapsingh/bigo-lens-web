@@ -58,6 +58,7 @@ import Contact from "@/pages/Contact";
 import NotFound from "@/pages/NotFound";
 import ChatBot from "./pages/ChatBot";
 import EcommerceAnalyticsDashboard from "./pages/EcommerceAnalyticsDashboard";
+import LensSearch from "./pages/LensSearch";
 
 const queryClient = new QueryClient();
 
