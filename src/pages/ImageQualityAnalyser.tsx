@@ -4,75 +4,33 @@ import '/src/EnhancedImageQualityAnalyser.css';
 
 // ====================== Types & Interfaces ======================
 interface ImageQualityMetrics {
-  resolution: ResolutionMetrics;
-  sharpness: SharpnessMetrics;
-  background: BackgroundMetrics;
-  lighting: LightingMetrics;
-  framing: FramingMetrics;
-  color: ColorMetrics;
-  completeness: CompletenessMetrics;
-  noise: NoiseMetrics;
-  objectDetection: ObjectDetectionMetrics;
-  compliance: ComplianceMetrics;
-  aesthetic: AestheticMetrics;
-  duplicates: DuplicateMetrics;
-  watermark: WatermarkMetrics;
-  classification: ClassificationMetrics;
-  metadata: MetadataMetrics;
-  sellability: SellabilityMetrics;
-  defects: DefectMetrics;
-  autoEnhancement: AutoEnhancementMetrics;
-  templateCompliance: TemplateComplianceMetrics;
-  brandConsistency: BrandConsistencyMetrics;
-  angleCompleteness: AngleCompletenessMetrics;
-  crossImageConsistency: CrossImageConsistencyMetrics;
-  misrepresentation: MisrepresentationMetrics;
-  performancePrediction: PerformancePredictionMetrics;
+  resolution: any;
+  sharpness: any;
+  background: any;
+  lighting: any;
+  framing: any;
+  color: any;
+  completeness: any;
+  noise: any;
+  objectDetection: any;
+  compliance: any;
+  aesthetic: any;
+  duplicates: any;
+  watermark: any;
+  classification: any;
+  metadata: any;
+  sellability: any;
+  defects: any;
+  autoEnhancement: any;
+  templateCompliance: any;
+  brandConsistency: any;
+  angleCompleteness: any;
+  crossImageConsistency: any;
+  misrepresentation: any;
+  performancePrediction: any;
   overallScore: number;
+  [key: string]: any;
 }
-
-interface ResolutionMetrics {
-  width: number;
-  height: number;
-  megapixels: number;
-  isLowResolution: boolean;
-  resolutionScore: number;
-  recommendedMin: { width: number; height: number };
-  issues: string[];
-}
-
-interface SharpnessMetrics {
-  sharpnessScore: number;
-  blurLevel: number;
-  edgeStrength: number;
-  pixelationDetected: boolean;
-  compressionArtifacts: boolean;
-  artifactScore: number;
-  issues: string[];
-}
-
-interface BackgroundMetrics { score: number; isClean: boolean; type: string; issues: string[]; }
-interface LightingMetrics { score: number; brightness: number; contrast: number; evenness: number; issues: string[]; }
-interface FramingMetrics { score: number; centeredness: number; padding: number; aspectRatio: number; issues: string[]; }
-interface ColorMetrics { score: number; accuracy: number; vibrancy: number; whiteBalance: number; issues: string[]; }
-interface CompletenessMetrics { score: number; hasHero: boolean; hasSide: boolean; hasBack: boolean; hasDetail: boolean; issues: string[]; }
-interface NoiseMetrics { score: number; noiseLevel: number; graininess: number; issues: string[]; }
-interface ObjectDetectionMetrics { score: number; objectsDetected: number; primaryObject: string; confidence: number; issues: string[]; }
-interface ComplianceMetrics { score: number; platform: string; passed: boolean; issues: string[]; }
-interface AestheticMetrics { score: number; composition: number; colorHarmony: number; visualAppeal: number; issues: string[]; }
-interface DuplicateMetrics { score: number; hasDuplicates: boolean; duplicateCount: number; issues: string[]; }
-interface WatermarkMetrics { score: number; hasWatermark: boolean; watermarkType: string; issues: string[]; }
-interface ClassificationMetrics { score: number; category: string; subcategory: string; confidence: number; issues: string[]; }
-interface MetadataMetrics { score: number; hasExif: boolean; hasIptc: boolean; issues: string[]; }
-interface SellabilityMetrics { score: number; marketReadiness: number; visualAppeal: number; issues: string[]; }
-interface DefectMetrics { score: number; defectsFound: number; defectTypes: string[]; issues: string[]; }
-interface AutoEnhancementMetrics { score: number; enhancements: Array<{ type: string; impact: number }>; issues: string[]; }
-interface TemplateComplianceMetrics { score: number; templateMatch: number; deviations: string[]; issues: string[]; }
-interface BrandConsistencyMetrics { score: number; brandMatch: number; styleConsistency: number; issues: string[]; }
-interface AngleCompletenessMetrics { score: number; anglesPresent: string[]; anglesMissing: string[]; issues: string[]; }
-interface CrossImageConsistencyMetrics { score: number; colorConsistency: number; styleConsistency: number; issues: string[]; }
-interface MisrepresentationMetrics { score: number; riskLevel: number; flaggedAreas: string[]; issues: string[]; }
-interface PerformancePredictionMetrics { score: number; predictedCTR: number; predictedConversion: number; issues: string[]; }
 
 interface ProductImage {
   id: string;
@@ -83,6 +41,8 @@ interface ProductImage {
   uploadDate: Date;
   aiGenerated?: boolean;
   metrics?: ImageQualityMetrics;
+  file?: File;
+  [key: string]: any;
 }
 
 interface AnalysisConfig {
@@ -101,6 +61,7 @@ interface AnalysisConfig {
   enablePerformancePrediction: boolean;
   enableImageGeneration: boolean;
   industryCategory: string;
+  [key: string]: any;
 }
 
 // ====================== Main Component with Fixed Buttons ======================
