@@ -1464,7 +1464,7 @@ const PersonalizationMaturityScore: React.FC = () => {
               <div className="stat-label">Identity Resolution</div>
             </div>
             <div className="stat-card">
-              <div className="stat-value">{data.dataSilos ? data.dataSilos : 42}%</div>
+              <div className="stat-value">{data.dataUnification?.dataSilos ? data.dataUnification.dataSilos : 42}%</div>
               <div className="stat-label">Data Silos</div>
             </div>
           </div>
