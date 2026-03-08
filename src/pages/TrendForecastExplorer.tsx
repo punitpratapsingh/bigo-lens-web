@@ -636,7 +636,7 @@ const AdvancedTrendForecastExplorer: React.FC = () => {
   const runQuantumInference = async () => {
     // Quantum machine learning inference
     const quantumResults = await simulateQuantumML();
-    setAdvancedTrendSignals(prev => [...prev, ...quantumResults.signals]);
+    setAdvancedTrendSignals(prev => [...prev, ...quantumResults.signals] as AdvancedTrendSignal[]);
     setFeatureImportance(quantumResults.featureImportance);
   };
 
