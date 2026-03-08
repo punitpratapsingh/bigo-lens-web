@@ -828,7 +828,7 @@ const AIModules = () => {
         { value: "<200ms", label: "Response Time" },
         { value: "68%", label: "Search Reduction" }
       ],
-      image: "/src/assets/solutions/LensSearch.png",
+      image: "/src/assets/ai-solution-lensanalytics.jpg",
       demoLink: "/demo/lens-search"
     },
     {
