@@ -77,6 +77,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/products" element={<Products />} />
           <Route path="/solutions/product-discovery" element={<ProductDiscovery />} />
+          <Route path="/solutions/lens-search" element={<LensSearch />} />
           <Route path="/solutions/auto-tagging" element={<AITagging />} />
           <Route path="/solutions/description-generation" element={<DescriptionGeneration />} />
           <Route path="/solutions/recommendation" element={<ProductRecommendation />} />
