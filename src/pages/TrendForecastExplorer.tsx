@@ -650,7 +650,7 @@ const AdvancedTrendForecastExplorer: React.FC = () => {
   const optimizeGeneticAlgorithms = () => {
     // Genetic algorithm optimization
     const geneticResults = geneticOptimization();
-    setGeneticAttributes(geneticResults.attributes);
+    setGeneticAttributes(geneticResults.attributes as GeneticAttributeOptimization[]);
     setClusterAnalysis(geneticResults.clusters);
   };
 
