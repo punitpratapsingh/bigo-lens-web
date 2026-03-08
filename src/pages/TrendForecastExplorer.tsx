@@ -657,7 +657,7 @@ const AdvancedTrendForecastExplorer: React.FC = () => {
   const runMonteCarloSimulations = () => {
     // Monte Carlo simulations
     const simulations = monteCarloSimulation();
-    setMonteCarloSimulations(prev => [...prev, ...simulations]);
+    setMonteCarloSimulations(prev => [...prev, ...simulations] as MonteCarloRevenueSimulation[]);
   };
 
   const updateBayesianNetwork = () => {
