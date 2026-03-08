@@ -107,20 +107,21 @@ const HeroSection = () => {
   const companyLogos = Array.from({ length: 27 }, (_, i) => `/src/assets/CompanyLogo/cp${i + 1}.png`);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-900">
-      {/* Background Video for Hero Section */}
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background - Luxury Gradient */}
       <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover"
-        >
-          <source src="/src/assets/HomeBG.mp4" type="video/mp4" />
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/20 to-purple-900/20"></div>
-        </video>
-        <div className="absolute inset-0 bg-gray-900/70 backdrop-blur-[1px]"></div>
+        {/* Luxury gradient background with purple and gold */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-indigo-900 to-navy-900 opacity-100"></div>
+        
+        {/* Gold accent gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-600/5 to-transparent"></div>
+        
+        {/* Animated luxury particles/glow effects */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        
+        {/* Subtle overlay for contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-purple-950/30 via-transparent to-purple-950/10"></div>
       </div>
 
       <div className="container mx-auto px-6 text-center relative z-10">
