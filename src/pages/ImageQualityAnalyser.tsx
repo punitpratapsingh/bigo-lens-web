@@ -4,55 +4,65 @@ import '/src/EnhancedImageQualityAnalyser.css';
 
 // ====================== Types & Interfaces ======================
 interface ImageQualityMetrics {
-  resolution: ResolutionMetrics;
-  sharpness: SharpnessMetrics;
-  background: BackgroundMetrics;
-  lighting: LightingMetrics;
-  framing: FramingMetrics;
-  color: ColorMetrics;
-  completeness: CompletenessMetrics;
-  noise: NoiseMetrics;
-  objectDetection: ObjectDetectionMetrics;
-  compliance: ComplianceMetrics;
-  aesthetic: AestheticMetrics;
-  duplicates: DuplicateMetrics;
-  watermark: WatermarkMetrics;
-  classification: ClassificationMetrics;
-  metadata: MetadataMetrics;
-  sellability: SellabilityMetrics;
-  defects: DefectMetrics;
-  autoEnhancement: AutoEnhancementMetrics;
-  templateCompliance: TemplateComplianceMetrics;
-  brandConsistency: BrandConsistencyMetrics;
-  angleCompleteness: AngleCompletenessMetrics;
-  crossImageConsistency: CrossImageConsistencyMetrics;
-  misrepresentation: MisrepresentationMetrics;
-  performancePrediction: PerformancePredictionMetrics;
+  resolution: any;
+  sharpness: any;
+  background: any;
+  lighting: any;
+  framing: any;
+  color: any;
+  completeness: any;
+  noise: any;
+  objectDetection: any;
+  compliance: any;
+  aesthetic: any;
+  duplicates: any;
+  watermark: any;
+  classification: any;
+  metadata: any;
+  sellability: any;
+  defects: any;
+  autoEnhancement: any;
+  templateCompliance: any;
+  brandConsistency: any;
+  angleCompleteness: any;
+  crossImageConsistency: any;
+  misrepresentation: any;
+  performancePrediction: any;
   overallScore: number;
+  [key: string]: any;
 }
 
-interface ResolutionMetrics {
-  width: number;
-  height: number;
-  megapixels: number;
-  isLowResolution: boolean;
-  resolutionScore: number;
-  recommendedMin: { width: number; height: number };
-  issues: string[];
+interface ProductImage {
+  id: string;
+  url: string;
+  name: string;
+  type: string;
+  status: string;
+  uploadDate: Date;
+  aiGenerated?: boolean;
+  metrics?: ImageQualityMetrics;
+  file?: File;
+  [key: string]: any;
 }
 
-interface SharpnessMetrics {
-  sharpnessScore: number;
-  blurLevel: number;
-  edgeStrength: number;
-  pixelationDetected: boolean;
-  compressionArtifacts: boolean;
-  artifactScore: number;
-  issues: string[];
+interface AnalysisConfig {
+  platforms: string[];
+  strictMode: boolean;
+  autoFixSuggestions: boolean;
+  batchSize: number;
+  qualityThreshold: number;
+  enableAI: boolean;
+  checkDuplicates: boolean;
+  checkWatermarks: boolean;
+  enableDefectDetection: boolean;
+  enableSellabilityScore: boolean;
+  enableAutoEnhancement: boolean;
+  enableBrandConsistency: boolean;
+  enablePerformancePrediction: boolean;
+  enableImageGeneration: boolean;
+  industryCategory: string;
+  [key: string]: any;
 }
-
-// ... (Keep all other interfaces from previous code, they're correct)
-// [Include all the interfaces from previous code here - they're fine]
 
 // ====================== Main Component with Fixed Buttons ======================
 const EnhancedImageQualityAnalyser: React.FC = () => {

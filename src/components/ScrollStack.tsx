@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 
 interface ScrollStackItemProps {
   children: React.ReactNode;
@@ -112,8 +112,10 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         <div className="flex flex-col items-center space-y-4">
           {items.map((_, index) => {
             const progress = getItemProgress(index);
-            const dotScale = useTransform(progress, [0, 1], [0.6, 1.2]);
-            const dotOpacity = useTransform(progress, [0, 1], [0.3, 1]);
+            const fallback = useMotionValue(0);
+            const safeProgress = typeof progress === 'number' ? fallback : progress;
+            const dotScale = useTransform(safeProgress, [0, 1], [0.6, 1.2]);
+            const dotOpacity = useTransform(safeProgress, [0, 1], [0.3, 1]);
             
             return (
               <motion.div

@@ -15,6 +15,7 @@ interface Blog {
   _id?: string;
   title: string;
   image: string;
+  img?: string;
   author: string;
   content: string;
   views: number;

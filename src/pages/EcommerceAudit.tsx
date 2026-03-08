@@ -232,7 +232,7 @@ import {
   Parentheses,
   Asterisk,
   Hash,
-  Infinity,
+  Infinity as InfinityIcon2,
   Pi,
   Omega,
   Sigma,
@@ -1614,7 +1614,7 @@ const EcommerceAudit: React.FC = () => {
           if (bulkActions.includes(store.id)) {
             return {
               ...store,
-              status: 'active',
+              status: 'active' as const,
               lastAudit: new Date(),
               score: Math.floor(Math.random() * 30) + 65,
               issues: Math.floor(Math.random() * 15) + 5,

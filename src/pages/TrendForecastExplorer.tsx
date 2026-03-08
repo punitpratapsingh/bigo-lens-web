@@ -636,7 +636,7 @@ const AdvancedTrendForecastExplorer: React.FC = () => {
   const runQuantumInference = async () => {
     // Quantum machine learning inference
     const quantumResults = await simulateQuantumML();
-    setAdvancedTrendSignals(prev => [...prev, ...quantumResults.signals]);
+    setAdvancedTrendSignals(prev => [...prev, ...quantumResults.signals] as AdvancedTrendSignal[]);
     setFeatureImportance(quantumResults.featureImportance);
   };
 
@@ -650,20 +650,20 @@ const AdvancedTrendForecastExplorer: React.FC = () => {
   const optimizeGeneticAlgorithms = () => {
     // Genetic algorithm optimization
     const geneticResults = geneticOptimization();
-    setGeneticAttributes(geneticResults.attributes);
+    setGeneticAttributes(geneticResults.attributes as GeneticAttributeOptimization[]);
     setClusterAnalysis(geneticResults.clusters);
   };
 
   const runMonteCarloSimulations = () => {
     // Monte Carlo simulations
     const simulations = monteCarloSimulation();
-    setMonteCarloSimulations(prev => [...prev, ...simulations]);
+    setMonteCarloSimulations(prev => [...prev, ...simulations] as MonteCarloRevenueSimulation[]);
   };
 
   const updateBayesianNetwork = () => {
     // Bayesian network updating
     const bayesianResults = bayesianInference();
-    setBayesianNetwork(bayesianResults.network);
+    setBayesianNetwork(bayesianResults.network as unknown as BayesianMerchandisingNetwork[]);
     setEnsembleWeights(bayesianResults.weights);
   };
 

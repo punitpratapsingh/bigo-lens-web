@@ -23,8 +23,8 @@ const GradientText: React.FC<GradientTextProps> = ({
     if (!textRef.current) return;
 
     const updateGradient = () => {
-      const gradient = document.getElementById(gradientId) as SVGLinearGradientElement;
-      const borderGradient = document.getElementById(borderGradientId) as SVGLinearGradientElement;
+      const gradient = document.getElementById(gradientId) as unknown as SVGLinearGradientElement;
+      const borderGradient = document.getElementById(borderGradientId) as unknown as SVGLinearGradientElement;
       
       if (gradient && borderGradient) {
         const now = Date.now();
@@ -114,13 +114,13 @@ const GradientText: React.FC<GradientTextProps> = ({
       </span>
 
       {/* CSS Animation for border */}
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes gradientShift {
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
         }
-      `}</style>
+      `}} />
     </span>
   );
 };
