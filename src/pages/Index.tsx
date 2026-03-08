@@ -882,7 +882,7 @@ const AIModules = () => {
         { value: "35%", label: "Conversion" },
         { value: "Real-time", label: "Updates" }
       ],
-      image: "/src/assets/solutions/set1.png",
+      image: "/src/assets/ai-solution-lensrecom.jpg",
       demoLink: "/demo/lens-recom"
     },
     {
